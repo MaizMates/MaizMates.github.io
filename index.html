@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" } }</script>
 <style>
 /* Layout: Apple-style long page. Order = hierarchy: who (hero), where and when (timeline), what and with which result (projects), one deep dive (3D book), how (toolkit), credentials, contact. Each fact appears in one place; other sections link to it. */
 :root {
@@ -87,9 +88,14 @@ section > .wrap { padding-block: clamp(80px, 11vw, 140px); display: grid; gap: 4
 .h2 em { font-size: 1.08em; }
 .lead { font-size: var(--t-lead); line-height: 1.4; color: var(--fg-2); max-width: 46ch; }
 .head { display: grid; gap: 16px; }
-.reveal { transition: opacity .7s ease, transform .7s ease; }
+.reveal { transition: opacity .7s cubic-bezier(.23, 1, .32, 1), transform .7s cubic-bezier(.23, 1, .32, 1); }
+.js .stagger > * { opacity: 0; transform: translateY(18px); transition: opacity .6s cubic-bezier(.23, 1, .32, 1), transform .6s cubic-bezier(.23, 1, .32, 1); transition-delay: calc(var(--i, 0) * 70ms); }
+.js .stagger.in > * { opacity: 1; transform: none; }
+.btn, .chip, .tags a, .goto a, .clink, .copy { transition: transform .16s cubic-bezier(.23, 1, .32, 1), background-color .2s, border-color .2s, box-shadow .2s; }
+.btn:active, .chip:active, .el:active, .clink:active, .tags a:active, .goto a:active { transform: scale(.97); }
+@media (hover: hover) { .pcard { transition: transform .45s cubic-bezier(.23, 1, .32, 1), box-shadow .45s; } .pcard:hover { transform: translateY(-6px); } }
 .js .reveal:not(.in) { opacity: 0; transform: translateY(24px); }
-@media (prefers-reduced-motion: reduce) { .js .reveal:not(.in) { opacity: 1; transform: none; } .reveal { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .js .reveal:not(.in), .js .stagger > * { opacity: 1; transform: none; } .reveal, .js .stagger > * { transition: none; } }
 
 /* Navigation */
 nav.top {
@@ -107,12 +113,13 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--accent); transform-origin: left; transform: scaleX(var(--p, 0)); }
 
 /* Hero */
-.hero { position: relative; overflow: hidden; }
-.hero .wrap { padding-block: clamp(56px, 9vw, 112px) clamp(150px, 17vw, 250px); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .85fr); gap: 40px; align-items: center; }
-.watermark {
-  position: absolute; inset: auto 0 -.16em 0; text-align: center; font-weight: 800; letter-spacing: -.06em; line-height: .8;
-  font-size: clamp(7rem, 24vw, 21rem); color: var(--fg); opacity: .05; pointer-events: none; user-select: none; white-space: nowrap;
-}
+.hero { position: relative; overflow: hidden; padding-bottom: 28px; }
+.hero .wrap { padding-block: clamp(56px, 9vw, 112px) clamp(48px, 6vw, 88px); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .85fr); gap: 40px; align-items: center; }
+.stripes { position: relative; height: clamp(84px, 13vh, 150px); cursor: crosshair; touch-action: pan-y; }
+.stripes canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.stripes-tip { position: absolute; bottom: calc(100% + 8px); transform: translateX(-50%); background: var(--ink); color: var(--on-ink); font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 8px; white-space: nowrap; pointer-events: none; font-variant-numeric: tabular-nums; z-index: 2; }
+.stripes-cap { font-size: .8125rem; color: var(--fg-2); padding-block: 10px 0; }
+.stripes-cap, footer p { max-width: 72ch; }
 .hero-copy { display: grid; gap: 22px; position: relative; }
 .status { display: inline-flex; align-items: center; gap: 10px; font-size: var(--t-small); color: var(--fg-2); font-weight: 500; width: fit-content; padding: 6px 14px 6px 10px; border: 1px solid var(--line); border-radius: 99px; background: var(--card); }
 .status i { width: 8px; height: 8px; border-radius: 50%; background: var(--work); animation: ping 2.4s infinite; }
@@ -127,8 +134,7 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .btn.primary { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
 .btn.primary:hover { filter: brightness(1.15); }
 @media (max-width: 900px) {
-  .hero .wrap { grid-template-columns: minmax(0, 1fr); padding-bottom: 72px; }
-  .watermark { display: none; }
+  .hero .wrap { grid-template-columns: minmax(0, 1fr); padding-bottom: 48px; }
 }
 
 /* Badge */
@@ -164,7 +170,7 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .facts div { display: grid; grid-template-columns: 86px minmax(0, 1fr); gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--grid); font-size: 13px; text-align: left; }
 .facts dt { color: var(--fg-3); font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding-top: 2px; }
 .facts dd { margin: 0; font-weight: 500; }
-.hint { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; color: var(--fg-3); text-transform: uppercase; margin-top: 18px; }
+.hint { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--fg-3); text-transform: uppercase; margin-top: 18px; }
 
 /* Timeline: two sides at every width; boxes span their real dates */
 .tl-legend { display: flex; gap: 10px 24px; flex-wrap: wrap; font-size: var(--t-small); color: var(--fg-2); }
@@ -181,10 +187,14 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .entry { position: absolute; width: calc(50% - 40px); background: var(--card); border-radius: 18px; padding: 18px 20px; box-shadow: var(--shadow); display: grid; gap: 6px; align-content: start; }
 .entry.edu { right: calc(50% + 28px); border-top: 3px solid var(--edu); }
 .entry.work { left: calc(50% + 28px); border-top: 3px solid var(--work); }
-.entry .when { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--fg-2); }
+.entry .when { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; color: var(--fg-2); }
 .entry h3 { font-size: 1.125rem; font-weight: 600; line-height: 1.25; letter-spacing: -.015em; }
 .entry .org { font-size: var(--t-small); color: var(--fg-2); }
-.entry .line { font-size: var(--t-small); color: var(--fg-2); }
+.entry .line { font-size: .9375rem; color: var(--fg); }
+.entry .ph { margin: -18px -20px 8px; height: 128px; overflow: hidden; border-radius: 15px 15px 0 0; background: var(--bg-alt); }
+.entry .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s cubic-bezier(.23, 1, .32, 1); }
+@media (hover: hover) { .entry:hover .ph img { transform: scale(1.05); } }
+.entry .sub .ph { margin: -12px -14px 6px; height: 92px; border-radius: 12px 12px 0 0; }
 .entry .goto { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .entry .goto a { font-size: 12px; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--line); color: var(--fg); }
 .entry .goto a:hover { text-decoration: none; border-color: var(--fg-3); }
@@ -202,6 +212,8 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
   .entry .goto a { font-size: 11px; padding: 3px 8px; }
   .entry .sub { left: 6px; right: 6px; padding: 8px 9px; border-radius: 9px; }
   .entry .sub h3 { font-size: .8125rem; }
+  .entry .ph { margin: -10px -11px 4px; height: 64px; border-radius: 11px 11px 0 0; }
+  .entry .sub .ph { margin: -8px -9px 4px; height: 52px; }
   .year { font-size: 9.5px; padding: 2px 5px; }
   .lg { display: none; }
   .sm { display: inline; }
@@ -215,17 +227,17 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .counter { font-family: var(--mono); font-size: var(--t-small); color: var(--fg-2); }
 .chapter { width: 230px; flex: none; display: grid; align-content: end; gap: 8px; padding: 24px 4px; border-left: 1px solid var(--line); padding-left: 22px; }
 .chapter em { font-size: 2.6rem; line-height: 1; color: var(--fg); }
-.chapter p { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-2); }
+.chapter p { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-2); }
 .pcard { width: min(540px, 82vw); flex: none; background: var(--card); border-radius: 26px; box-shadow: var(--shadow); overflow: hidden; display: grid; grid-template-rows: 220px auto; }
 .pvis { background: var(--bg-alt); position: relative; display: grid; place-items: center; overflow: hidden; padding: 20px; }
 .pvis > * { max-width: 100%; }
 .pvis .illus { position: absolute; right: 14px; bottom: 10px; font-family: var(--mono); font-size: 9px; letter-spacing: .16em; color: var(--fg-3); text-transform: uppercase; }
 .pbody { padding: 22px 24px 24px; display: grid; gap: 10px; align-content: start; }
-.pmeta { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--fg-2); text-transform: uppercase; }
+.pmeta { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; color: var(--fg-2); text-transform: uppercase; }
 .pbody h3 { font-size: 1.5rem; letter-spacing: -.025em; line-height: 1.15; }
-.pbody p { color: var(--fg-2); font-size: .9688rem; }
+.pbody p { color: var(--fg); font-size: 1.0625rem; line-height: 1.5; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.tags span, .tags a { font-size: 12px; padding: 4px 10px; border-radius: 99px; background: var(--bg-alt); color: var(--fg); }
+.tags span, .tags a { font-size: 13px; padding: 4px 10px; border-radius: 99px; background: var(--bg-alt); color: var(--fg); }
 .tags a { background: none; border: 1px solid var(--line); color: var(--link); }
 .static-hs .hs { height: auto; }
 .static-hs .hs-sticky { position: static; height: auto; overflow-x: auto; scroll-snap-type: x mandatory; padding-block: 8px 24px; }
@@ -235,7 +247,7 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
   .pcard { grid-template-rows: 170px auto; border-radius: 22px; }
   .pbody { padding: 18px 18px 20px; gap: 8px; }
   .pbody h3 { font-size: 1.25rem; }
-  .pbody p { font-size: .9375rem; }
+  .pbody p { font-size: 1rem; }
   .chapter { width: 170px; padding-left: 16px; }
   .chapter em { font-size: 2rem; }
   .hs-head .h2 { font-size: 2rem; }
@@ -243,7 +255,7 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 /* project visuals */
 .vcol { display: grid; gap: 8px; justify-items: center; text-align: center; }
 .vbig { font-size: clamp(2.1rem, 7vw, 3.25rem); font-weight: 700; letter-spacing: -.04em; line-height: 1; }
-.vsub { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--fg-2); text-transform: uppercase; }
+.vsub { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; color: var(--fg-2); text-transform: uppercase; }
 .vflow { display: flex; align-items: center; justify-content: center; gap: 12px; }
 .vflow .arrow { font-size: 1.75rem; color: var(--fg-3); }
 .gates { display: flex; gap: 5px; justify-content: center; margin-top: 6px; }
@@ -277,7 +289,7 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 /* Book (deep dive) */
 .desk { background: radial-gradient(ellipse at 50% 35%, #2a2a2e 0%, #121214 55%, #0a0a0b 100%); color: #f5f5f7; --fg: #f5f5f7; --fg-2: #b0b0b6; --fg-3: #8e8e93; --line: #3a3a3c; }
 .book-scroll { position: relative; height: calc(100vh * 6); }
-.book-stage { position: sticky; top: 0; height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr); justify-items: center; align-items: center; perspective: 2200px; overflow: hidden; padding-top: 72px; }
+.book-stage { position: sticky; top: 0; height: 100vh; height: 100svh; display: grid; grid-template-rows: auto minmax(0, 1fr); justify-items: center; align-items: center; perspective: 2200px; overflow: hidden; padding-top: 72px; }
 .book-head { width: 100%; }
 .book-head .wrap { display: grid; gap: 10px; }
 .book-head .h2 { font-size: clamp(2rem, 4.4vw, 3.25rem); }
@@ -302,7 +314,7 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .leaf::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, var(--sh, 0)); pointer-events: none; border-radius: 2px 10px 10px 2px; }
 .face .k, .page .k { font-family: var(--mono); font-size: .62em; letter-spacing: .16em; text-transform: uppercase; color: #6e6e73; }
 .face h3, .page h3 { font-size: 1.6em; line-height: 1.1; letter-spacing: -.02em; }
-.face p, .page p { font-size: .82em; color: #3a3a3c; line-height: 1.45; }
+.face p, .page p { font-size: .9em; color: #3a3a3c; line-height: 1.45; }
 .face .big { font-size: 3.4em; font-weight: 700; letter-spacing: -.04em; line-height: 1; color: #1d1d1f; }
 .face svg { width: 100%; height: auto; }
 .face svg text { font-family: var(--sans); fill: #6e6e73; font-size: 11px; font-variant-numeric: tabular-nums; }
@@ -330,6 +342,17 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .flat-book .leaf { display: grid; gap: 16px; }
 .flat-book .leaf::after, .flat-book .pnum { display: none; }
 
+/* 3D sector surface */
+.surface-head { padding-top: clamp(80px, 11vw, 140px); display: grid; gap: 14px; }
+.surface-head .lead { color: #b0b0b6; }
+.surface { position: relative; height: clamp(380px, 64vh, 640px); max-width: 1280px; margin: 0 auto; touch-action: pan-y; cursor: grab; }
+.surface:active { cursor: grabbing; }
+.surface canvas { width: 100%; height: 100%; display: block; }
+.surface-tip { position: absolute; z-index: 2; pointer-events: none; background: #f5f5f7; color: #1d1d1f; font-size: 13px; font-weight: 600; padding: 7px 11px; border-radius: 9px; white-space: nowrap; transform: translate(-50%, calc(-100% - 12px)); font-variant-numeric: tabular-nums; }
+.surface-fallback { position: absolute; inset: 0; display: grid; place-items: center; color: #b0b0b6; text-align: center; padding: 22px; }
+.surface.live .surface-fallback { display: none; }
+.surface-cap { color: #b0b0b6; font-size: .9375rem; padding-bottom: 24px; max-width: 72ch; }
+
 /* Toolkit periodic table */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { font: inherit; font-size: var(--t-small); padding: 7px 14px 7px 10px; border-radius: 99px; border: 1px solid var(--line); background: var(--card); color: var(--fg); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
@@ -348,7 +371,7 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 }
 .ptable { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
 @media (max-width: 520px) { .ptable { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.famlabel { grid-column: 1 / -1; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-2); display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.famlabel { grid-column: 1 / -1; font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-2); display: flex; align-items: center; gap: 8px; margin-top: 10px; }
 .famlabel:first-child { margin-top: 0; }
 .famlabel i { width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
 .el {
@@ -360,16 +383,16 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .el:hover, .el.active { transform: translateY(-3px); }
 .el.active { outline: 2px solid var(--c); outline-offset: 2px; }
 .el.dim { opacity: .2; }
-.el .n { font-family: var(--mono); font-size: 10px; opacity: .6; }
+.el .n { font-family: var(--mono); font-size: 11px; opacity: .6; }
 .el .sym { font-size: clamp(1.25rem, 2.4vw, 1.75rem); font-weight: 700; letter-spacing: -.03em; line-height: 1; align-self: center; }
-.el .nm { font-size: 10.5px; opacity: .72; line-height: 1.15; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.el .nm { font-size: 11.5px; opacity: .72; line-height: 1.15; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .famlabel.dim { opacity: .3; }
 .detail { position: sticky; top: 84px; background: var(--card); border-radius: var(--r); padding: 22px; box-shadow: var(--shadow); display: grid; gap: 10px; min-height: 220px; align-content: start; }
 .detail .big { font-size: 3.25rem; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
 .detail .fam { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; display: flex; gap: 8px; align-items: center; color: var(--fg-2); }
 .detail .fam i { width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
 .detail h3 { font-size: 1.25rem; }
-.detail p { color: var(--fg-2); font-size: var(--t-small); }
+.detail p { color: var(--fg); font-size: .9375rem; }
 .detail .status2 { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg); }
 
 /* Credentials */
@@ -381,7 +404,7 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .cert-list li:hover .ci, .cert-list li:hover .cy, .cert-list li:hover span { color: color-mix(in srgb, var(--on-ink) 75%, transparent); }
 .ci { font-family: var(--mono); font-size: 12px; color: var(--fg-3); }
 .cert-list b { font-size: 1.0625rem; font-weight: 600; letter-spacing: -.015em; display: block; }
-.cert-list span { font-size: var(--t-small); color: var(--fg-2); }
+.cert-list span { font-size: .9375rem; color: var(--fg-2); }
 .cy { font-family: var(--mono); font-size: 12px; color: var(--fg-2); }
 .pending { white-space: nowrap; display: inline-block; vertical-align: 2px; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; border: 1px solid currentColor; margin-left: 8px; opacity: .8; }
 .langs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
@@ -398,7 +421,9 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .clink small { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-2); }
 .clink b { font-size: 1.125rem; overflow-wrap: anywhere; }
 .copy { font: inherit; font-size: var(--t-small); color: var(--link); background: none; border: 0; padding: 0; cursor: pointer; justify-self: start; }
-footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var(--fg-3); display: grid; gap: 6px; }
+footer .wrap { padding-block: 28px 44px; font-size: .8125rem; color: var(--fg-2); display: grid; gap: 8px; }
+
+footer a { color: inherit; text-decoration: underline; text-decoration-color: var(--line); }
 </style>
 <script>document.documentElement.classList.add("js");</script>
 </head>
@@ -412,16 +437,16 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
       <a href="#projects" class="keep">Work</a>
       <a href="#engine">Deep dive</a>
       <a href="#skills">Toolkit</a>
-      <a href="#contact" class="keep">Contact</a>
+      <a href="#contact">Contact</a>
+      <a href="cv/" class="keep">CV</a>
     </div>
   </div>
   <div class="progress" id="progress"></div>
 </nav>
 
 <header class="hero" id="top">
-  <div class="watermark" aria-hidden="true">IZZO</div>
   <div class="wrap">
-    <div class="hero-copy">
+    <div class="hero-copy stagger">
       <p class="status"><i></i>Open to climate and financial risk roles</p>
       <h1>Climate risk, <em>measured</em> in credit terms.</h1>
       <p class="lead">Two years at the European Central Bank, in climate and nature risk supervision and in market and liquidity risk. I work in Python, SQL and R.</p>
@@ -469,11 +494,16 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
       <p class="hint">Tap or hover the card</p>
     </div>
   </div>
+  <div class="stripes" id="stripes" role="img" aria-label="Warming stripes: global temperature anomaly for each year from 1880 to 2025, from blue for cooler years to red for warmer ones">
+    <canvas id="stripesCanvas" aria-hidden="true"></canvas>
+    <p class="stripes-tip" id="stripesTip" hidden></p>
+  </div>
+  <p class="wrap stripes-cap">Each stripe is one year of global temperature, 1880 to 2025, against the 1951–1980 mean. Point at a stripe to read it. Data: NASA GISTEMP v4.</p>
 </header>
 
 <section id="timeline" aria-labelledby="tl-h">
   <div class="wrap">
-    <div class="head reveal">
+    <div class="head stagger">
       <p class="eyebrow">Timeline</p>
       <h2 class="h2" id="tl-h">Study on the left. Work on the <em>right.</em></h2>
       <div class="tl-legend"><span><i style="background:var(--edu)"></i>Education</span><span><i style="background:var(--work)"></i>Experience</span><span>Each box spans its real dates.</span></div>
@@ -609,11 +639,24 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
 </section>
 
 <section class="desk" id="engine" aria-labelledby="engine-h">
+  <div class="surface-block">
+    <div class="wrap surface-head stagger">
+      <p class="eyebrow">Deep dive · Transition credit risk engine</p>
+      <h2 class="h2">Every sector, <em>every year.</em></h2>
+      <p class="lead">Italian loan book under Net Zero 2050. Each bar is one NACE section in one year, from 2025 to 2050; its height is the change in probability of default against Current Policies. Drag sideways to turn it.</p>
+    </div>
+    <div class="surface" id="surface">
+      <canvas id="surfaceCanvas" aria-hidden="true"></canvas>
+      <p class="surface-tip" id="surfaceTip" hidden></p>
+      <p class="surface-fallback">The 3D view needs WebGL. The book below tells the same story page by page.</p>
+    </div>
+    <p class="wrap surface-cap">Three rows carry the risk: agriculture (+96.9 pp by 2050), water, sewerage and waste (peak +27.9 pp in 2042) and transport (peak +22.7 pp in 2046). Electricity moves first and fades: +11.2 pp in 2028.</p>
+  </div>
   <div class="book-scroll" id="bookScroll">
     <div class="book-stage">
       <div class="book-head">
         <div class="wrap">
-          <p class="eyebrow">Deep dive · Transition credit risk engine</p>
+          <p class="eyebrow">The story, page by page</p>
           <h2 class="h2" id="engine-h">How a carbon price becomes a <em>default.</em></h2>
           <p class="lead">Scroll to turn the pages. Every number comes from the published results.</p>
         </div>
@@ -707,7 +750,7 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
 
 <section id="skills" aria-labelledby="sk-h">
   <div class="wrap">
-    <div class="head reveal">
+    <div class="head stagger">
       <p class="eyebrow">Toolkit</p>
       <h2 class="h2" id="sk-h">The periodic table of my <em>toolkit.</em></h2>
       <p class="lead">Tap an element to see where I used it.</p>
@@ -723,12 +766,12 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
 
 <section id="certs" aria-labelledby="ce-h" style="background:var(--bg-alt)">
   <div class="wrap certs-grid">
-    <div class="head reveal">
+    <div class="head stagger">
       <p class="eyebrow">Credentials</p>
       <h2 class="h2" id="ce-h">Always <em>learning.</em></h2>
       <div class="langs" aria-label="Languages"><span><b>Italian</b> native</span><span><b>English</b> C2</span><span><b>German</b> B2</span><span><b>French</b> B1</span><span><b>Spanish</b> A1</span></div>
     </div>
-    <ol class="cert-list">
+    <ol class="cert-list stagger">
       <li><span class="ci">01</span><div><b>Sustainability and Climate Risk (SCR)<span class="pending">Result pending</span></b><span>GARP · exam October 2026</span></div><span class="cy">2026</span></li>
       <li><span class="ci">02</span><div><b>Climate and Nature Risks</b><span>European University Institute</span></div><span class="cy">2025</span></li>
       <li><span class="ci">03</span><div><b>Innovation and AI</b><span>INSEAD</span></div><span class="cy">2025</span></li>
@@ -740,11 +783,11 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
 
 <section class="contact" id="contact" aria-labelledby="ct-h">
   <div class="wrap">
-    <div class="head reveal">
+    <div class="head stagger">
       <p class="eyebrow">Contact</p>
       <h2 class="h2" id="ct-h">Let's talk about <em>climate risk.</em></h2>
     </div>
-    <div class="clinks">
+    <div class="clinks stagger">
       <div class="clink"><small>Email</small><b id="email">marcoizzo2001@gmail.com</b><button type="button" class="copy" id="copy">Copy address</button></div>
       <a class="clink" href="https://www.linkedin.com/in/sonomarcoizzo" target="_blank" rel="noopener"><small>LinkedIn</small><b>in/sonomarcoizzo ↗</b></a>
       <a class="clink" href="https://github.com/MaizMates" target="_blank" rel="noopener"><small>GitHub</small><b>MaizMates ↗</b></a>
@@ -755,7 +798,9 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
 <footer>
   <div class="wrap">
     <p>Marco Izzo · Sorrento, Italy</p>
-    <p>Figures from my CV and from the published results of the transition-credit-risk repository (NGFS Phase V via IIASA, Eurostat, BACH, Pillar 3). Visuals marked "Illustrative UI" do not show real data.</p>
+    <p>Figures from my CV and from the published results of the transition-credit-risk repository (NGFS Phase V via IIASA, Eurostat, BACH, Pillar 3). Visuals marked "Illustrative UI" do not show real data. Warming stripes: NASA GISTEMP v4 annual global means, after Ed Hawkins' climate stripes.</p>
+    <p>Pictures: <a href="https://commons.wikimedia.org/w/index.php?curid=31079552">“Frankfurt EZB-Neubau.Osten.20140209”</a> by Epizentrum, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; <a href="https://commons.wikimedia.org/w/index.php?curid=55125210">“Politecnico di Milano Bovisa 6”</a> by Neq00, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; <a href="https://commons.wikimedia.org/w/index.php?curid=157535219">“Lund University Main Building”</a> by Einaz80, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; <a href="https://commons.wikimedia.org/w/index.php?curid=150192561">“Milano. Università Bocconi”</a> by Paolo Monti, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; all via Wikimedia Commons, resized.</p>
+    <p><a href="cv/">Printable CV</a></p>
   </div>
 </footer>
 
@@ -786,31 +831,50 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
   var words = ["Transition risk modelling", "NGFS scenario analysis", "Pillar 3 ESG disclosures", "Supervisory dashboards", "Python · SQL · R"], wi = 0;
   if (!reduce) setInterval(function () { wi = (wi + 1) % words.length; $("#rot").textContent = words[wi]; }, 2600);
 
-  /* Reveal on scroll */
+  /* Reveal on scroll: blocks rise once; inside a .stagger block the parts follow one another */
   var io = new IntersectionObserver(function (es) {
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
   }, { threshold: .15 });
-  document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+  document.querySelectorAll(".stagger").forEach(function (el) { [].forEach.call(el.children, function (c, k) { c.style.setProperty("--i", k); }); });
+  document.querySelectorAll(".reveal, .stagger").forEach(function (el) { io.observe(el); });
+
+  /* Warming stripes: flat fallback, tooltip; the WebGL layer (module below) animates on top */
+  var STR = window.STRIPES = { T: [-.17,-.09,-.11,-.18,-.28,-.33,-.31,-.36,-.18,-.11,-.36,-.22,-.27,-.31,-.30,-.23,-.11,-.11,-.28,-.18,-.08,-.16,-.28,-.37,-.47,-.26,-.22,-.38,-.42,-.48,-.44,-.44,-.37,-.34,-.15,-.14,-.36,-.46,-.30,-.27,-.27,-.18,-.28,-.26,-.27,-.22,-.11,-.22,-.20,-.36,-.15,-.09,-.16,-.28,-.13,-.20,-.15,-.03,.00,-.02,.12,.18,.06,.09,.20,.09,-.07,-.03,-.11,-.11,-.17,-.07,.01,.08,-.13,-.14,-.19,.05,.06,.03,-.02,.06,.03,.05,-.20,-.11,-.06,-.02,-.08,.05,.03,-.08,.01,.16,-.07,-.01,-.10,.18,.07,.16,.26,.32,.14,.31,.16,.12,.18,.32,.39,.27,.45,.41,.22,.23,.31,.45,.33,.47,.61,.38,.39,.53,.63,.62,.53,.68,.64,.66,.54,.66,.72,.61,.65,.67,.75,.89,1.01,.91,.85,.98,1.01,.85,.89,1.17,1.28,1.18], y0: 1880, hover: -10 };
+  var BLUES = ["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7"], REDS = ["#fee0d2", "#fcbba1", "#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#a50f15", "#67000d"];
+  STR.col = function (v) { return v < 0 ? BLUES[7 - Math.min(7, Math.floor(-v / .6 * 8))] : REDS[Math.min(7, Math.floor(v / 1.2 * 8))]; };
+  var stripes = $("#stripes"), stip = $("#stripesTip"), N = STR.T.length;
+  stripes.style.background = "linear-gradient(90deg," + STR.T.map(function (v, i) { var c = STR.col(v); return c + " " + (i / N * 100).toFixed(3) + "% " + ((i + 1) / N * 100).toFixed(3) + "%"; }).join(",") + ")";
+  function stripeAt(clientX) {
+    var r = stripes.getBoundingClientRect(), i = clamp(Math.floor((clientX - r.left) / r.width * N), 0, N - 1), v = STR.T[i];
+    STR.hover = i; stip.hidden = false;
+    stip.textContent = (STR.y0 + i) + ": " + (v > 0 ? "+" : "") + v.toFixed(2) + " °C";
+    stip.style.left = clamp(clientX - r.left, 60, r.width - 60) + "px";
+    if (STR.redraw) STR.redraw();
+  }
+  stripes.addEventListener("pointermove", function (e) { stripeAt(e.clientX); });
+  stripes.addEventListener("pointerdown", function (e) { stripeAt(e.clientX); });
+  stripes.addEventListener("pointerleave", function () { STR.hover = -10; stip.hidden = true; if (STR.redraw) STR.redraw(); });
 
   /* Timeline: each box spans its real dates, from the start of the first month to the end of the last */
   var ms = function (y, m) { return y + (m - 1) / 12; }, me = function (y, m) { return y + m / 12; };
   var TL = [
-    { s: "edu", a: ms(2020, 9), b: me(2023, 7), when: "Sep 2020 – Jul 2023", t: ["BSc Management Engineering", "BSc Management Eng."], o: ["Politecnico di Milano · 103/110", "PoliMi · 103/110"], line: "Thesis: bankability of a 10 MW bifacial solar plant.",
-      sub: { a: ms(2022, 1), b: me(2022, 6), when: "Jan – Jun 2022", t: ["Erasmus exchange, Industrial Economics", "Erasmus"], o: ["Lund University, Sweden", "Lund University"] } },
+    { s: "edu", a: ms(2020, 9), b: me(2023, 7), when: "Sep 2020 – Jul 2023", img: ["assets/politecnico-di-milano-bovisa-6.jpg", "Politecnico di Milano, Bovisa campus"], t: ["BSc Management Engineering", "BSc Management Eng."], o: ["Politecnico di Milano · 103/110", "PoliMi · 103/110"], line: "Thesis: bankability of a 10 MW bifacial solar plant.",
+      sub: { a: ms(2022, 1), b: me(2022, 6), img: ["assets/lund-university-main-building.jpg", "Lund University main building"], when: "Jan – Jun 2022", t: ["Erasmus exchange, Industrial Economics", "Erasmus"], o: ["Lund University, Sweden", "Lund University"] } },
     { s: "work", a: ms(2023, 2), b: me(2023, 7), when: "Feb – Jul 2023", t: ["Trainee, Energy and Infrastructure Investment", "Investment trainee"], o: ["Cygnum Capital (Lion's Head Global Partners)", "Cygnum Capital"], go: [["p-solar", "Solar bankability"]] },
-    { s: "edu", a: ms(2023, 9), b: me(2026, 4), when: "Sep 2023 – Apr 2026", t: ["Joint MSc Transformative Sustainability", "MSc Sustainability"], o: ["Bocconi and Politecnico di Milano · 110/110 cum laude", "Bocconi · PoliMi · 110 cum laude"], line: "Thesis: a supervisory benchmarking framework for public bank climate disclosures." },
+    { s: "edu", a: ms(2023, 9), b: me(2026, 4), when: "Sep 2023 – Apr 2026", img: ["assets/milano-universita-bocconi.jpg", "Università Bocconi, Milan, archival photograph by Paolo Monti"], t: ["Joint MSc Transformative Sustainability", "MSc Sustainability"], o: ["Bocconi and Politecnico di Milano · 110/110 cum laude", "Bocconi · PoliMi · 110 cum laude"], line: "Thesis: a supervisory benchmarking framework for public bank climate disclosures." },
     { s: "work", a: ms(2024, 9), b: me(2025, 8), when: "Sep 2024 – Aug 2025", t: ["Trainee, Market and Liquidity Risk", "Market and liquidity risk"], o: ["European Central Bank", "ECB"], line: "Counterparty credit risk scores for the SREP; sovereign yield monitoring.", go: [["p-lex", "LexBankia"]] },
-    { s: "work", a: ms(2025, 9), b: me(2026, 8), when: "Sep 2025 – Aug 2026", t: ["Supervision Analyst, Climate and Nature Risk", "Climate risk supervision"], o: ["European Central Bank", "ECB"], go: [["p-pacta", "PACTA alignment"], ["p-p3", "Pillar 3 review"], ["p-dash", "Dashboards"]] }
+    { s: "work", a: ms(2025, 9), b: me(2026, 8), when: "Sep 2025 – Aug 2026", img: ["assets/frankfurt-ezb-neubau-osten-20140209.jpg", "European Central Bank headquarters, Frankfurt"], t: ["Supervision Analyst, Climate and Nature Risk", "Climate risk supervision"], o: ["European Central Bank", "ECB"], go: [["p-pacta", "PACTA alignment"], ["p-p3", "Pillar 3 review"], ["p-dash", "Dashboards"]] }
   ];
   var two = function (x) { return '<span class="lg">' + x[0] + '</span><span class="sm">' + x[1] + "</span>"; };
+  var ph = function (x) { return x.img ? '<div class="ph"><img src="' + x.img[0] + '" alt="' + x.img[1] + '" loading="lazy" decoding="async"></div>' : ""; };
   var tl = $("#tl"), Y0 = 2020.55, Y1 = 2026.75, PAD = 24, GAP = 8;
   for (var yr = 2021; yr <= 2026; yr++) tl.insertAdjacentHTML("beforeend", '<span class="year" data-y="' + yr + '">' + yr + "</span>");
   TL.forEach(function (e, k) {
     tl.insertAdjacentHTML("beforeend", '<span class="span ' + e.s + '" data-i="' + k + '"></span>' +
-      '<article class="entry ' + e.s + ' reveal" data-i="' + k + '"><p class="when">' + e.when + "</p><h3>" + two(e.t) + '</h3><p class="org">' + two(e.o) + "</p>" +
+      '<article class="entry ' + e.s + ' reveal" data-i="' + k + '">' + ph(e) + '<p class="when">' + e.when + "</p><h3>" + two(e.t) + '</h3><p class="org">' + two(e.o) + "</p>" +
       (e.line ? '<p class="line">' + e.line + "</p>" : "") +
       (e.go ? '<p class="goto">' + e.go.map(function (g) { return '<a href="#' + g[0] + '" data-goto="' + g[0] + '">' + g[1] + " →</a>"; }).join("") + "</p>" : "") +
-      (e.sub ? '<div class="sub"><p class="when">' + e.sub.when + "</p><h3>" + two(e.sub.t) + '</h3><p class="org">' + two(e.sub.o) + "</p></div>" : "") + "</article>");
+      (e.sub ? '<div class="sub">' + ph(e.sub) + '<p class="when">' + e.sub.when + "</p><h3>" + two(e.sub.t) + '</h3><p class="org">' + two(e.sub.o) + "</p></div>" : "") + "</article>");
   });
   tl.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
   function layoutTL() {
@@ -1027,6 +1091,106 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
     function sel() { var r = document.createRange(); r.selectNodeContents($("#email")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected. Press Cmd+C"; }
     try { navigator.clipboard.writeText(text).then(function () { btn.textContent = "Copied"; }, sel); } catch (e) { sel(); }
   });
+})();
+</script>
+<script type="module">
+/* WebGL layer: animated warming stripes (hero) and the sector-by-year surface (deep dive). Without WebGL both keep their flat fallbacks. */
+import * as THREE from "three";
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+function whenVisible(el, on, off) { new IntersectionObserver(es => es.forEach(e => (e.isIntersecting ? on() : off()))).observe(el); }
+
+/* 1. Warming stripes: one texel per year, a slow ripple, the pointed year lifted */
+(() => {
+  const STR = window.STRIPES, host = document.getElementById("stripes"), canvas = document.getElementById("stripesCanvas");
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: false }); } catch (e) { return; }
+  const n = STR.T.length, data = new Uint8Array(n * 4);
+  STR.T.forEach((v, i) => data.set([...hex(STR.col(v)), 255], i * 4));
+  const tex = new THREE.DataTexture(data, n, 1, THREE.RGBAFormat);
+  tex.magFilter = tex.minFilter = THREE.NearestFilter; tex.needsUpdate = true;
+  const mat = new THREE.ShaderMaterial({
+    uniforms: { uTex: { value: tex }, uTime: { value: 0 }, uHover: { value: -10 }, uN: { value: n } },
+    vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }",
+    fragmentShader: `precision highp float;
+      uniform sampler2D uTex; uniform float uTime, uHover, uN; varying vec2 vUv;
+      void main(){
+        float x = clamp(vUv.x + 0.0035 * sin(vUv.y * 4.0 + uTime * 0.7 + vUv.x * 8.0), 0.0, 0.9999);
+        vec3 c = texture2D(uTex, vec2(x, 0.5)).rgb;
+        c *= 0.95 + 0.05 * sin(vUv.x * 30.0 - uTime * 1.1 + vUv.y * 3.0);
+        c += 0.22 * (1.0 - step(0.5, abs(floor(x * uN) - uHover)));
+        gl_FragColor = vec4(c, 1.0);
+      }`,
+  });
+  const scene = new THREE.Scene(), cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const size = () => { renderer.setSize(host.clientWidth, host.clientHeight, false); draw(); };
+  const draw = () => { mat.uniforms.uHover.value = STR.hover; renderer.render(scene, cam); };
+  STR.redraw = draw;
+  new ResizeObserver(size).observe(host);
+  let raf = 0;
+  const loop = t => { mat.uniforms.uTime.value = t / 1000; draw(); raf = requestAnimationFrame(loop); };
+  if (!reduce) whenVisible(host, () => { if (!raf) raf = requestAnimationFrame(loop); }, () => { cancelAnimationFrame(raf); raf = 0; });
+  size();
+})();
+
+/* 2. Sector surface: 17 NACE sections x 26 years, Italy, Net Zero 2050 vs Current Policies (pp) */
+(() => {
+  const host = document.getElementById("surface"), canvas = document.getElementById("surfaceCanvas"), tip = document.getElementById("surfaceTip");
+  const NAMES = { A: "Agriculture, forestry, fishing", B: "Mining and quarrying", C: "Manufacturing", D: "Electricity and gas", E: "Water, sewerage, waste", F: "Construction", G: "Wholesale and retail", H: "Transport and storage", I: "Accommodation and food", J: "Information and communication", L: "Real estate", M: "Professional and scientific", N: "Administrative services", P: "Education", Q: "Health and social work", R: "Arts and recreation", S: "Other services" };
+  const D = {"A":[0,14.7,33.2,46.7,57.4,66.3,76.3,82.2,86.3,89.9,93.4,95.5,96,96.4,96.5,96.5,96.6,96.7,96.7,96.7,96.7,96.8,96.8,96.8,96.9,96.9],"B":[0,0.3,0.6,1.2,1.2,0.8,0.8,0.6,0.3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"C":[0,0.1,0.3,0.5,0.6,0.7,1,1.3,1.6,1.7,1.9,2.2,2.3,2.4,2.4,2.3,2.5,2.5,2.4,2.1,1.7,1.2,0.5,0,0,0],"D":[0,3.8,9.6,11.2,9.8,4.8,4.3,1.8,0.2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"E":[0,2.4,5.3,7.9,10.1,12.1,15.6,19.2,21.2,22.8,23.8,25.7,26.9,27.4,27.3,26.6,27.7,27.9,27,25.4,23,18.3,8.9,0,0,0],"F":[0,0.1,0.1,0.2,0.3,0.3,0.4,0.6,0.7,0.7,0.8,0.9,1,1,1,1,1,1.1,1,0.9,0.7,0.5,0.2,0,0,0],"G":[0,0.1,0.2,0.3,0.3,0.4,0.6,0.7,0.9,1,1.1,1.2,1.4,1.5,1.5,1.4,1.4,1.4,1.2,0.9,0.6,0.6,0.5,0.4,0.2,0.1],"H":[0,0.9,2,3.4,4.6,5.6,7.3,8.8,10,11.2,12.3,14.2,15.7,17.2,18.2,18.9,20.4,21.4,22.1,22.4,22.2,22.7,21.6,19.3,15.1,9.2],"I":[0,0,0,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.1,0.1,0.1,0.1,0.1,0],"J":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"L":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"M":[0,0,0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0,0,0,0,0,0],"N":[0,0,0,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.1,0.1,0.1,0.1,0.1,0],"P":[0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0,0,0],"Q":[0,0,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.2,0.2,0.2,0.2,0.1,0.1,0],"R":[0,0,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.2,0.1,0.1,0.1,0.1,0.1,0],"S":[0,0,0.1,0.1,0.1,0.1,0.2,0.2,0.3,0.3,0.3,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.3,0.3,0.2,0.2,0.2,0.1,0.1,0]};
+  const keys = Object.keys(D), nS = keys.length, nY = 26, step = 1.0, w = 0.74, H = 7 / 97;
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true }); } catch (e) { return; }
+  host.classList.add("live");
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(32, 1, 0.1, 400), group = new THREE.Group();
+  scene.add(group, new THREE.HemisphereLight(0xffffff, 0x1a2230, 1.5));
+  const sun = new THREE.DirectionalLight(0xffffff, 2.4); sun.position.set(10, 18, 12); scene.add(sun);
+  const geo = new THREE.BoxGeometry(w, 1, w); geo.translate(0, 0.5, 0);
+  const mesh = new THREE.InstancedMesh(geo, new THREE.MeshStandardMaterial({ roughness: 0.5, metalness: 0.05 }), nS * nY);
+  const m = new THREE.Matrix4(), lo = new THREE.Color("#c6dbef"), hi = new THREE.Color("#cb181d"), mid = new THREE.Color("#fc9272"), c = new THREE.Color();
+  keys.forEach((k, s) => D[k].forEach((v, y) => {
+    const i = s * nY + y, t = Math.sqrt(Math.max(0, v) / 97);
+    m.makeScale(1, Math.max(0.03, v * H), 1);
+    m.setPosition((y - (nY - 1) / 2) * step, 0, (s - (nS - 1) / 2) * step);
+    mesh.setMatrixAt(i, m);
+    mesh.setColorAt(i, t < 0.5 ? c.lerpColors(lo, mid, t * 2) : c.lerpColors(mid, hi, (t - 0.5) * 2));
+  }));
+  group.add(mesh);
+  const plate = new THREE.Mesh(new THREE.PlaneGeometry(nY * step + 0.8, nS * step + 0.8), new THREE.MeshStandardMaterial({ color: 0x232327, roughness: 1 }));
+  plate.rotation.x = -Math.PI / 2; plate.position.y = -0.01; group.add(plate);
+  let rot = -0.5, vel = 0, dragging = false, lastX = 0, raf = 0, hoverOn = false;
+  const fit = () => {
+    const wpx = host.clientWidth, hpx = host.clientHeight, aspect = wpx / hpx;
+    renderer.setSize(wpx, hpx, false); cam.aspect = aspect;
+    /* keep the whole 26 x 17 footprint (about 31 units across its diagonal) in frame at any rotation */
+    const fov = 2 * Math.tan(THREE.MathUtils.degToRad(16)), dist = Math.max(44, 34 / (fov * aspect), 26 / fov);
+    cam.position.set(0, dist * 0.62, dist * 0.78); cam.lookAt(0, 1.2, 0); cam.updateProjectionMatrix(); render();
+  };
+  const render = () => { group.rotation.y = rot; renderer.render(scene, cam); };
+  const loop = () => { if (!dragging) { rot += vel; vel *= 0.95; if (!reduce && Math.abs(vel) < 0.0004) rot += 0.0012; } render(); raf = requestAnimationFrame(loop); };
+  whenVisible(host, () => { if (!raf) raf = requestAnimationFrame(loop); }, () => { cancelAnimationFrame(raf); raf = 0; });
+  new ResizeObserver(fit).observe(host);
+  host.addEventListener("pointerdown", e => { dragging = true; lastX = e.clientX; vel = 0; });
+  addEventListener("pointerup", () => { dragging = false; });
+  host.addEventListener("pointercancel", () => { dragging = false; });
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  host.addEventListener("pointermove", e => {
+    const r = host.getBoundingClientRect();
+    if (dragging) { const dx = e.clientX - lastX; lastX = e.clientX; rot += dx * 0.008; vel = dx * 0.0008; if (reduce) render(); }
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, cam);
+    const hit = ray.intersectObject(mesh)[0];
+    if (hit && hit.instanceId !== undefined) {
+      const s = Math.floor(hit.instanceId / nY), y = hit.instanceId % nY, v = D[keys[s]][y];
+      tip.hidden = false; tip.textContent = NAMES[keys[s]] + " · " + (2025 + y) + ": " + (v > 0 ? "+" : "") + v.toFixed(1) + " pp";
+      tip.style.left = e.clientX - r.left + "px"; tip.style.top = e.clientY - r.top + "px";
+    } else tip.hidden = true;
+  });
+  host.addEventListener("pointerleave", () => { tip.hidden = true; });
+  fit();
 })();
 </script>
 </body>
