@@ -1,0 +1,994 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Marco Izzo</title>
+<meta name="description" content="Marco Izzo, climate and financial risk analyst: two years at the European Central Bank, transition risk modelling, NGFS scenario analysis, Pillar 3 ESG.">
+<meta property="og:title" content="Marco Izzo, climate and financial risk analyst">
+<meta property="og:description" content="ECB supervision experience, an open transition credit risk engine, and the toolkit behind it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: Apple-style long page with one dark "desk" band for the 3D book. 980px reading column; timeline, horizontal project track and book are scroll-driven; everything degrades to a plain stacked page without JS or with reduced motion. */
+:root {
+  --bg: #fbfbfd;
+  --bg-alt: #f2f2f5;
+  --card: #ffffff;
+  --fg: #1d1d1f;
+  --fg-2: #6e6e73;
+  --fg-3: #8e8e93;
+  --line: #d2d2d7;
+  --grid: #e6e6eb;
+  --link: #0066cc;
+  --accent: #0071e3;
+  --ink: #1d2433;
+  --on-ink: #f5f5f7;
+  --edu: #2a78d6;
+  --work: #1baf7a;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 12px 32px rgba(16, 24, 40, .08);
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --t-display: clamp(3rem, 8vw, 6rem);
+  --t-h2: clamp(2.25rem, 5.5vw, 4rem);
+  --t-h3: 1.3125rem;
+  --t-lead: clamp(1.125rem, 2vw, 1.375rem);
+  --t-body: 1.0625rem;
+  --t-small: .875rem;
+  --t-caption: .75rem;
+  --r: 22px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #000000; --bg-alt: #111113; --card: #1c1c1e; --fg: #f5f5f7; --fg-2: #a1a1a6; --fg-3: #86868b;
+    --line: #3a3a3c; --grid: #2c2c2e; --link: #2997ff; --ink: #e8e8ed; --on-ink: #111113;
+    --edu: #3987e5; --work: #199e70;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px rgba(0, 0, 0, .5);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #000000; --bg-alt: #111113; --card: #1c1c1e; --fg: #f5f5f7; --fg-2: #a1a1a6; --fg-3: #86868b;
+  --line: #3a3a3c; --grid: #2c2c2e; --link: #2997ff; --ink: #e8e8ed; --on-ink: #111113;
+  --edu: #3987e5; --work: #199e70;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px rgba(0, 0, 0, .5);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-padding-top: 64px; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: var(--t-body);
+  line-height: 1.47; letter-spacing: -.01em; -webkit-font-smoothing: antialiased; overflow-x: clip;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { text-wrap: balance; font-weight: 700; }
+em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: 0; }
+.num { font-variant-numeric: tabular-nums; }
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(22px, env(safe-area-inset-left, 0px));
+  padding-right: max(22px, env(safe-area-inset-right, 0px));
+}
+section { position: relative; }
+section > .wrap { padding-block: clamp(80px, 11vw, 140px); display: grid; gap: 44px; }
+.eyebrow { font-family: var(--mono); font-size: var(--t-caption); letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); display: flex; align-items: center; gap: 12px; }
+.eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--fg-3); }
+.h2 { font-size: var(--t-h2); line-height: 1.04; letter-spacing: -.03em; }
+.h2 em { font-size: 1.08em; }
+.lead { font-size: var(--t-lead); line-height: 1.4; color: var(--fg-2); max-width: 46ch; }
+.head { display: grid; gap: 16px; }
+.reveal { transition: opacity .7s ease, transform .7s ease; }
+.js .reveal:not(.in) { opacity: 0; transform: translateY(24px); }
+@media (prefers-reduced-motion: reduce) { .js .reveal:not(.in) { opacity: 1; transform: none; } .reveal { transition: none; } }
+
+/* Navigation */
+nav.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+}
+nav.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 52px; gap: 20px; }
+.brand { color: var(--fg); font-weight: 600; letter-spacing: -.02em; }
+.navlinks { display: flex; gap: 22px; }
+.navlinks a { color: var(--fg); opacity: .78; font-size: .8125rem; }
+.navlinks a:hover { opacity: 1; text-decoration: none; }
+@media (max-width: 860px) { .navlinks a:not(.keep) { display: none; } }
+.progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--accent); transform-origin: left; transform: scaleX(var(--p, 0)); }
+
+/* Hero */
+.hero { overflow: hidden; }
+.hero .wrap { padding-block: clamp(56px, 9vw, 112px) clamp(64px, 9vw, 120px); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .85fr); gap: 40px; align-items: center; }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } }
+.watermark {
+  position: absolute; inset: auto 0 6% 0; text-align: center; font-weight: 800; letter-spacing: -.06em; line-height: .8;
+  font-size: clamp(8rem, 30vw, 26rem); color: var(--fg); opacity: .045; pointer-events: none; user-select: none; white-space: nowrap;
+}
+.hero-copy { display: grid; gap: 22px; position: relative; }
+.status { display: inline-flex; align-items: center; gap: 10px; font-size: var(--t-small); color: var(--fg-2); font-weight: 500; width: fit-content; padding: 6px 14px 6px 10px; border: 1px solid var(--line); border-radius: 99px; background: var(--card); }
+.status i { width: 8px; height: 8px; border-radius: 50%; background: var(--work); box-shadow: 0 0 0 0 var(--work); animation: ping 2.4s infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--work) 60%, transparent); } 80%, 100% { box-shadow: 0 0 0 10px transparent; } }
+.hero h1 { font-size: var(--t-display); line-height: .98; letter-spacing: -.04em; }
+.hero h1 em { font-size: 1.1em; }
+.rotator { font-family: var(--mono); font-size: var(--t-small); color: var(--fg-2); min-height: 1.5em; }
+.rotator b { color: var(--fg); font-weight: 500; border-right: 2px solid var(--accent); padding-right: 3px; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 99px; font-weight: 500; font-size: var(--t-body); border: 1px solid var(--line); color: var(--fg); background: var(--card); }
+.btn:hover { text-decoration: none; border-color: var(--fg-3); }
+.btn.primary { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+.btn.primary:hover { filter: brightness(1.15); }
+
+/* Badge */
+.badge-zone { display: grid; justify-items: center; perspective: 1400px; min-height: 520px; }
+.lanyard { display: grid; justify-items: center; transform-origin: 50% 0; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+.strap {
+  width: 34px; height: 150px; background: var(--ink); color: var(--on-ink); font-family: var(--mono); font-size: 9px; letter-spacing: .2em;
+  writing-mode: vertical-rl; display: grid; place-items: center; overflow: hidden; white-space: nowrap; border-radius: 0 0 4px 4px;
+}
+.clip { width: 46px; height: 22px; border-radius: 8px; background: linear-gradient(#d9d9de, #a8a8b0); margin-top: -2px; box-shadow: inset 0 -2px 3px rgba(0, 0, 0, .2); }
+.card3d { width: 290px; height: 410px; margin-top: 8px; position: relative; transform-style: preserve-3d; transition: transform .8s cubic-bezier(.2, .8, .2, 1); cursor: pointer; }
+.badge-zone:hover .card3d, .card3d.flipped { transform: rotateY(180deg); }
+@media (hover: none) { .badge-zone:hover .card3d:not(.flipped) { transform: none; } }
+.side { position: absolute; inset: 0; border-radius: 20px; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: var(--card); box-shadow: var(--shadow); border: 1px solid var(--line); overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; }
+.side.back { transform: rotateY(180deg); }
+.bhead { background: var(--ink); color: var(--on-ink); padding: 16px 18px; display: flex; align-items: center; gap: 12px; }
+.bhead .mono { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; }
+.bhead small { display: block; font-size: 11px; opacity: .7; letter-spacing: .02em; text-transform: none; }
+.bhead .dot { width: 30px; height: 30px; border-radius: 50%; background: var(--on-ink); color: var(--ink); display: grid; place-items: center; font-weight: 700; font-size: 12px; }
+.bbody { padding: 22px 18px 10px; display: grid; justify-items: center; align-content: start; gap: 12px; text-align: center; }
+.portrait { width: 128px; height: 150px; border-radius: 16px; border: 3px solid var(--ink); background: var(--bg-alt); display: grid; place-items: center; overflow: hidden; }
+.portrait b { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 64px; color: var(--fg); }
+.portrait img { width: 100%; height: 100%; object-fit: cover; }
+.bname { font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 1.0625rem; }
+.brole { font-size: var(--t-small); color: var(--fg-2); margin-top: -8px; }
+.bfoot { padding: 12px 18px 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; border-top: 1px dashed var(--line); }
+.bfoot div { display: grid; gap: 2px; text-align: center; }
+.bfoot span { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; color: var(--fg-3); text-transform: uppercase; }
+.bfoot b { font-size: 12px; font-weight: 600; }
+.barcode { height: 22px; margin: 0 18px 14px; background: repeating-linear-gradient(90deg, var(--fg) 0 2px, transparent 2px 4px, var(--fg) 4px 5px, transparent 5px 8px, var(--fg) 8px 11px, transparent 11px 12px); opacity: .75; }
+.facts { padding: 18px; display: grid; gap: 0; align-content: start; }
+.facts div { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--grid); font-size: 13px; text-align: left; }
+.facts dt { color: var(--fg-3); font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding-top: 2px; }
+.facts dd { margin: 0; font-weight: 500; }
+.quote { padding: 4px 18px 18px; font-family: var(--serif); font-style: italic; font-size: 19px; line-height: 1.25; color: var(--fg-2); }
+.hint { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; color: var(--fg-3); text-transform: uppercase; margin-top: 18px; }
+
+/* Impact */
+.impact { background: var(--bg-alt); }
+.figs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 860px) { .figs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.fig { background: var(--card); border-radius: var(--r); padding: 26px 22px; display: grid; gap: 10px; align-content: space-between; min-height: 190px; }
+.fig b { font-size: clamp(2.5rem, 5vw, 3.75rem); font-weight: 700; letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.fig span { color: var(--fg-2); font-size: var(--t-small); }
+.fig small { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-3); }
+
+/* Timeline */
+.tl-legend { display: flex; gap: 24px; flex-wrap: wrap; font-size: var(--t-small); color: var(--fg-2); }
+.tl-legend span { display: inline-flex; gap: 8px; align-items: center; }
+.tl-legend i { width: 18px; height: 4px; border-radius: 2px; }
+.timeline { position: relative; height: var(--h, 1400px); }
+.axis { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--grid); }
+.axis .fill { position: absolute; left: 0; top: 0; width: 100%; height: var(--fill, 0%); background: var(--fg); border-radius: 2px; }
+.axis .now { position: absolute; left: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--fg); top: var(--fill, 0%); box-shadow: 0 0 0 6px color-mix(in srgb, var(--fg) 14%, transparent); }
+.year { position: absolute; left: 50%; transform: translate(-50%, -50%); font-family: var(--mono); font-size: 11px; letter-spacing: .1em; background: var(--bg); color: var(--fg-2); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--grid); }
+.span { position: absolute; width: 5px; border-radius: 3px; }
+.span.edu { right: calc(50% + 9px); background: var(--edu); }
+.span.work { left: calc(50% + 9px); background: var(--work); }
+.entry { position: absolute; width: calc(50% - 48px); background: var(--card); border-radius: 18px; padding: 18px 20px; box-shadow: var(--shadow); display: grid; gap: 6px; z-index: 1; }
+.entry.edu { right: calc(50% + 32px); }
+.entry.work { left: calc(50% + 32px); }
+.entry:hover, .entry:focus-within { z-index: 5; }
+.entry .when { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--fg-2); }
+.entry h3 { font-size: 1.125rem; font-weight: 600; line-height: 1.25; letter-spacing: -.015em; }
+.entry .org { font-size: var(--t-small); color: var(--fg-2); }
+.entry .tag { position: absolute; top: 18px; width: 10px; height: 10px; border-radius: 50%; }
+.entry.edu .tag { right: -38px; background: var(--edu); }
+.entry.work .tag { left: -38px; background: var(--work); }
+.entry details summary { cursor: pointer; font-size: var(--t-small); color: var(--link); list-style: none; width: fit-content; }
+.entry details summary::-webkit-details-marker { display: none; }
+.entry details summary::after { content: " +"; }
+.entry details[open] summary::after { content: " \2212"; }
+.entry ul { margin: 10px 0 0; padding-left: 1.05em; display: grid; gap: 6px; font-size: var(--t-small); color: var(--fg-2); }
+.entry .kpi { font-size: var(--t-small); font-weight: 600; }
+@media (max-width: 820px) {
+  .timeline { height: auto; display: grid; gap: 16px; padding-left: 28px; }
+  .axis { left: 6px; }
+  .axis .now, .year, .span { display: none; }
+  .entry { position: static; width: auto; }
+  .entry .tag { left: -27px !important; right: auto !important; }
+}
+
+/* Projects: horizontal track */
+.hs { position: relative; height: calc(100vh + var(--dist, 0px)); }
+.hs-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; align-content: center; gap: 28px; }
+.track { display: flex; gap: 22px; padding-left: max(22px, calc((100vw - 1080px) / 2 + 22px)); padding-right: 22px; will-change: transform; transform: translateX(var(--x, 0px)); width: max-content; }
+.pcard { width: min(560px, 84vw); flex: none; background: var(--card); border-radius: 26px; box-shadow: var(--shadow); overflow: hidden; display: grid; grid-template-rows: 230px auto; }
+.pvis { background: var(--bg-alt); position: relative; display: grid; place-items: center; overflow: hidden; padding: 20px; }
+.pvis .illus { position: absolute; right: 14px; bottom: 10px; font-family: var(--mono); font-size: 9px; letter-spacing: .16em; color: var(--fg-3); text-transform: uppercase; }
+.pbody { padding: 22px 24px 24px; display: grid; gap: 10px; align-content: start; }
+.pmeta { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--fg-2); text-transform: uppercase; }
+.pbody h3 { font-size: 1.5rem; letter-spacing: -.025em; line-height: 1.15; }
+.pbody p { color: var(--fg-2); font-size: .9688rem; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { font-size: 12px; padding: 4px 10px; border-radius: 99px; background: var(--bg-alt); color: var(--fg); }
+.hs-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
+.counter { font-family: var(--mono); font-size: var(--t-small); color: var(--fg-2); }
+.static-hs .hs { height: auto; }
+.static-hs .hs-sticky { position: static; height: auto; overflow-x: auto; scroll-snap-type: x mandatory; padding-block: 8px 24px; }
+.static-hs .track { transform: none; }
+.static-hs .pcard { scroll-snap-align: center; }
+/* project visuals */
+.vgrid { display: grid; grid-template-columns: repeat(18, 12px); gap: 4px; }
+.vgrid i { width: 12px; height: 12px; border-radius: 3px; background: var(--s1); opacity: .9; }
+.vbig { font-size: 3.25rem; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+.vsub { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--fg-2); text-transform: uppercase; text-align: center; }
+.vflow { display: flex; align-items: center; gap: 14px; }
+.vflow .arrow { font-size: 2rem; color: var(--fg-3); }
+.gates { display: flex; gap: 6px; margin-top: 14px; justify-content: center; }
+.gates i { width: 18px; height: 18px; border-radius: 50%; background: var(--work); display: grid; place-items: center; color: #fff; font-size: 11px; font-style: normal; font-weight: 700; }
+.dash { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 440px; }
+.dash div { background: var(--card); border-radius: 12px; padding: 12px; display: grid; gap: 8px; box-shadow: var(--shadow); }
+.dash b { font-size: 11px; font-weight: 600; }
+.bars { display: flex; align-items: end; gap: 4px; height: 52px; }
+.bars i { flex: 1; background: var(--s1); border-radius: 3px 3px 0 0; }
+.chat { display: grid; gap: 8px; width: 100%; max-width: 360px; }
+.chat p { padding: 9px 13px; border-radius: 16px; font-size: 13px; max-width: 80%; }
+.chat .q { background: var(--accent); color: #fff; justify-self: end; border-bottom-right-radius: 4px; }
+.chat .a { background: var(--card); justify-self: start; border-bottom-left-radius: 4px; box-shadow: var(--shadow); }
+.chat .a span { color: var(--fg-3); font-family: var(--mono); font-size: 10px; display: block; margin-top: 4px; }
+.ring { width: 96px; height: 96px; border-radius: 50%; background: conic-gradient(var(--work) 0 87%, var(--grid) 87% 100%); display: grid; place-items: center; position: absolute; right: 22px; top: 20px; }
+.ring b { width: 74px; height: 74px; border-radius: 50%; background: var(--bg-alt); display: grid; place-items: center; font-size: 1.25rem; }
+.map { position: relative; width: 100%; max-width: 420px; height: 170px; border-radius: 14px; background:
+  radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--s2) 35%, transparent) 0 22px, transparent 23px),
+  radial-gradient(circle at 62% 58%, color-mix(in srgb, var(--s1) 35%, transparent) 0 34px, transparent 35px),
+  radial-gradient(circle at 82% 26%, color-mix(in srgb, var(--s2) 35%, transparent) 0 16px, transparent 17px),
+  repeating-linear-gradient(0deg, var(--grid) 0 1px, transparent 1px 24px), repeating-linear-gradient(90deg, var(--grid) 0 1px, transparent 1px 24px), var(--card); }
+.map i { position: absolute; width: 10px; height: 10px; border-radius: 2px; background: var(--fg); transform: rotate(45deg); }
+.solar { display: grid; grid-template-columns: repeat(8, 30px); gap: 5px; transform: perspective(500px) rotateX(38deg); }
+.solar i { height: 20px; background: linear-gradient(135deg, #2b4a8b, #1a2c55); border: 1px solid #5a78b8; }
+.spark { width: 100%; max-width: 440px; }
+
+/* Book */
+.desk { background: radial-gradient(ellipse at 50% 35%, #2a2a2e 0%, #121214 55%, #0a0a0b 100%); color: #f5f5f7; --fg: #f5f5f7; --fg-2: #b0b0b6; --fg-3: #8e8e93; --line: #3a3a3c; }
+.desk .eyebrow::before { background: #8e8e93; }
+.book-scroll { position: relative; height: calc(100vh * 6); }
+.book-stage { position: sticky; top: 0; height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr); justify-items: center; align-items: center; perspective: 2200px; overflow: hidden; padding-top: 72px; }
+.book {
+  --P: clamp(240px, min(34vw, calc((100vh - 300px) / 1.32)), 420px); --H: calc(var(--P) * 1.32);
+  position: relative; width: calc(var(--P) * 2); height: var(--H); transform-style: preserve-3d; transform: rotateX(16deg) translateY(10px);
+  font-size: calc(var(--P) / 24);
+}
+.book::after { content: ""; position: absolute; left: 4%; right: 4%; bottom: -34px; height: 40px; background: radial-gradient(ellipse at center, rgba(0, 0, 0, .7), transparent 70%); transform: translateZ(-2px); }
+.page, .leaf { position: absolute; top: 0; width: var(--P); height: var(--H); }
+.page.l { left: 0; }
+.page.r, .leaf { left: var(--P); }
+.leaf { transform-origin: left center; transform-style: preserve-3d; transform: rotateY(var(--a, 0deg)); }
+.face, .page { background: #f7f6f2; color: #1d1d1f; padding: 2.2em 2em; display: grid; align-content: start; gap: .9em; overflow: hidden; }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.face.back, .page.l { border-radius: 10px 2px 2px 10px; background: linear-gradient(90deg, #f1f0eb 0%, #f7f6f2 88%, #e9e7e0 100%); }
+.face.front, .page.r { border-radius: 2px 10px 10px 2px; background: linear-gradient(90deg, #e9e7e0 0%, #f7f6f2 12%, #f7f6f2 100%); }
+.face.back { transform: rotateY(180deg); }
+.leaf::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, var(--sh, 0)); pointer-events: none; border-radius: 2px 10px 10px 2px; }
+.face .k, .page .k { font-family: var(--mono); font-size: .62em; letter-spacing: .16em; text-transform: uppercase; color: #6e6e73; }
+.face h3, .page h3 { font-size: 1.6em; line-height: 1.1; letter-spacing: -.02em; }
+.face p, .page p { font-size: .82em; color: #3a3a3c; line-height: 1.45; }
+.face .big { font-size: 3.4em; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+.face svg { width: 100%; height: auto; }
+.face svg text { font-family: var(--sans); fill: #6e6e73; font-size: 11px; font-variant-numeric: tabular-nums; }
+.face svg .ann { fill: #1d1d1f; font-weight: 600; }
+.face.cover { background: linear-gradient(135deg, #1d2433, #0f141f); color: #f5f5f7; align-content: space-between; }
+.face.cover h3 { font-size: 2.3em; }
+.face.cover h3 em { color: #d6d6dc; }
+.face.cover p { color: #b0b0b6; }
+.face.cover .k { color: #8e8e93; }
+.pnum { position: absolute; bottom: 1.2em; font-family: var(--mono); font-size: .55em; color: #8e8e93; }
+.face.front .pnum, .page.r .pnum { right: 1.6em; }
+.face.back .pnum, .page.l .pnum { left: 1.6em; }
+.legend2 { display: flex; gap: 1.2em; font-size: .66em; color: #3a3a3c; }
+.legend2 span { display: inline-flex; gap: .5em; align-items: center; }
+.legend2 i { width: 1.4em; height: 3px; border-radius: 2px; }
+.steps { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+.steps i { width: 7px; height: 7px; border-radius: 50%; background: #48484a; transition: background .3s, width .3s; }
+.steps i.on { background: #f5f5f7; width: 22px; border-radius: 4px; }
+.book-head { width: 100%; }
+.book-head .wrap { display: grid; gap: 10px; }
+.book-head .h2 { font-size: clamp(2rem, 4.4vw, 3.25rem); }
+.book-head .lead { color: #b0b0b6; }
+.flat-book .book-scroll { height: auto; }
+.flat-book .book-stage { position: static; height: auto; display: block; perspective: none; overflow: visible; padding-bottom: 80px; }
+.flat-book .book-head { padding-top: 80px; padding-bottom: 32px; }
+.flat-book .book-stage { padding-top: 0; }
+.flat-book .book { --P: min(440px, calc(100vw - 44px)); --H: auto; width: auto; height: auto; transform: none; display: grid; gap: 16px; justify-content: center; font-size: 15px; padding-inline: 22px; }
+.flat-book .book::after, .flat-book .steps { display: none; }
+.flat-book .page, .flat-book .leaf, .flat-book .face { position: relative; left: auto; transform: none; width: var(--P); height: auto; min-height: 0; border-radius: 16px; }
+.flat-book .leaf { display: grid; gap: 16px; }
+.flat-book .leaf::after { display: none; }
+.flat-book .pnum { display: none; }
+.flat-book .book > .page.l { order: -1; }
+
+/* Skills periodic table */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: inherit; font-size: var(--t-small); padding: 7px 14px 7px 10px; border-radius: 99px; border: 1px solid var(--line); background: var(--card); color: var(--fg); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+.chip i { width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+.ptable-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 28px; align-items: start; }
+@media (max-width: 900px) { .ptable-wrap { grid-template-columns: minmax(0, 1fr); } }
+.ptable { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 640px) { .ptable { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.el {
+  font: inherit; text-align: left; aspect-ratio: 1 / 1.08; border-radius: 12px; padding: 8px 9px; cursor: pointer; position: relative;
+  background: color-mix(in srgb, var(--c) 16%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 35%, var(--line)); color: var(--fg);
+  display: grid; grid-template-rows: auto 1fr auto; transition: transform .2s, opacity .2s, background .2s;
+}
+.el:hover, .el.active { transform: translateY(-3px); background: color-mix(in srgb, var(--c) 30%, var(--card)); }
+.el.dim { opacity: .22; }
+.el .n { font-family: var(--mono); font-size: 10px; color: var(--fg-2); }
+.el .sym { font-size: clamp(1.25rem, 2.6vw, 1.9rem); font-weight: 700; letter-spacing: -.03em; line-height: 1; align-self: center; }
+.el .nm { font-size: 10.5px; color: var(--fg-2); line-height: 1.15; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.el.gap { visibility: hidden; }
+@media (max-width: 640px) { .el.gap { display: none; } }
+.detail { position: sticky; top: 84px; background: var(--card); border-radius: var(--r); padding: 22px; box-shadow: var(--shadow); display: grid; gap: 10px; min-height: 220px; align-content: start; }
+.detail .big { font-size: 3.5rem; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+.detail .fam { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; display: flex; gap: 8px; align-items: center; color: var(--fg-2); }
+.detail .fam i { width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
+.detail h3 { font-size: 1.25rem; }
+.detail p { color: var(--fg-2); font-size: var(--t-small); }
+
+/* Certifications */
+.certs-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 48px; align-items: start; }
+@media (max-width: 820px) { .certs-grid { grid-template-columns: minmax(0, 1fr); } }
+.cert-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.cert-list li { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 16px; align-items: baseline; padding: 20px 16px; border-bottom: 1px solid var(--line); border-radius: 0; transition: background .25s, color .25s, border-radius .25s; }
+.cert-list li:hover { background: var(--ink); color: var(--on-ink); border-radius: 14px; }
+.cert-list li:hover .ci, .cert-list li:hover .cy { color: color-mix(in srgb, var(--on-ink) 70%, transparent); }
+.ci { font-family: var(--mono); font-size: 12px; color: var(--fg-3); }
+.cert-list b { font-size: 1.125rem; font-weight: 600; letter-spacing: -.015em; display: block; }
+.cert-list span { font-size: var(--t-small); color: inherit; opacity: .75; }
+.cy { font-family: var(--mono); font-size: 12px; color: var(--fg-2); }
+.pending { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; border: 1px solid currentColor; margin-left: 8px; opacity: .8; }
+
+/* Contact */
+.contact { background: var(--bg-alt); }
+.contact .h2 { max-width: 14ch; }
+.clinks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .clinks { grid-template-columns: minmax(0, 1fr); } }
+.clink { background: var(--card); border-radius: var(--r); padding: 22px; display: grid; gap: 6px; color: var(--fg); }
+.clink:hover { text-decoration: none; box-shadow: var(--shadow); }
+.clink small { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-2); }
+.clink b { font-size: 1.125rem; overflow-wrap: anywhere; }
+.copy { font: inherit; font-size: var(--t-small); color: var(--link); background: none; border: 0; padding: 0; cursor: pointer; justify-self: start; }
+footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var(--fg-3); display: grid; gap: 6px; }
+</style>
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<nav class="top" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#top">Marco Izzo</a>
+    <div class="navlinks">
+      <a href="#impact">Impact</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#projects" class="keep">Work</a>
+      <a href="#engine">Engine</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact" class="keep">Contact</a>
+    </div>
+  </div>
+  <div class="progress" id="progress"></div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="watermark" aria-hidden="true">IZZO</div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <p class="status"><i></i>Open to climate and financial risk roles</p>
+      <h1>Climate risk, <em>measured</em> in credit terms.</h1>
+      <p class="lead">Two years at the European Central Bank, in climate and nature risk supervision and in market and liquidity risk. I turn scenarios, disclosures and loan data into numbers supervisors can act on.</p>
+      <p class="rotator" aria-hidden="true">Now: <b id="rot">Transition risk modelling</b></p>
+      <div class="ctas">
+        <a class="btn primary" href="#engine">Open the engine</a>
+        <a class="btn" href="#contact">Get in touch</a>
+        <a class="btn" href="https://github.com/MaizMates" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn" href="https://www.linkedin.com/in/sonomarcoizzo" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>
+    <div class="badge-zone" id="badgeZone">
+      <div class="lanyard" id="lanyard">
+        <div class="strap" aria-hidden="true">MARCO IZZO · CLIMATE RISK · MARCO IZZO</div>
+        <div class="clip" aria-hidden="true"></div>
+        <div class="card3d" id="card3d" role="button" tabindex="0" aria-label="Analyst card. Activate to flip and see quick facts.">
+          <div class="side front">
+            <div class="bhead"><span class="dot">MI</span><span class="mono">Analyst ID<small>Portfolio · 2026</small></span></div>
+            <div class="bbody">
+              <div class="portrait"><b>MI</b></div>
+              <p class="bname">Marco Izzo</p>
+              <p class="brole">Climate and Financial Risk Analyst</p>
+            </div>
+            <div>
+              <div class="bfoot">
+                <div><span>ID no.</span><b>MI-2026</b></div>
+                <div><span>Field</span><b>Climate risk</b></div>
+                <div><span>Status</span><b>Open</b></div>
+              </div>
+              <div class="barcode" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div class="side back">
+            <div class="bhead"><span class="dot">MI</span><span class="mono">Quick facts<small>Hover off to flip back</small></span></div>
+            <dl class="facts">
+              <div><dt>Based in</dt><dd>Sorrento, Italy</dd></div>
+              <div><dt>Last role</dt><dd>ECB, Supervision Analyst</dd></div>
+              <div><dt>Studied</dt><dd>MSc Bocconi and PoliMi, 110/110 cum laude</dd></div>
+              <div><dt>Focus</dt><dd>Transition risk, scenarios, Pillar 3</dd></div>
+              <div><dt>Speaks</dt><dd>IT, EN C2, DE B2, FR B1</dd></div>
+            </dl>
+            <p class="quote">"From the carbon price to the default rate."</p>
+          </div>
+        </div>
+      </div>
+      <p class="hint">Hover or tap the card</p>
+    </div>
+  </div>
+</header>
+
+<section class="impact" id="impact" aria-labelledby="impact-h">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow">Impact at the ECB</p>
+      <h2 class="h2" id="impact-h">Work used across <em>European</em> supervision.</h2>
+    </div>
+    <div class="figs">
+      <div class="fig reveal"><small>Pillar 3 ESG</small><b class="count" data-to="86">86</b><span>banks in the disclosure quality review I led</span></div>
+      <div class="fig reveal"><small>Dashboards</small><b class="count" data-to="110">110</b><span>Joint Supervisory Teams using the three dashboards I built</span></div>
+      <div class="fig reveal"><small>Climate alignment</small><b class="count" data-to="3500" data-from="2000">3,500</b><span>entities matched, up from 2,000</span></div>
+      <div class="fig reveal"><small>LexBankia pilot</small><b><span class="count" data-to="87" style="font:inherit;color:inherit">87</span>%</b><span>faster legal-query turnaround, about 100 users</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="timeline" aria-labelledby="tl-h">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow">Timeline</p>
+      <h2 class="h2" id="tl-h">Study on the left. Work on the <em>right.</em></h2>
+      <div class="tl-legend"><span><i style="background:var(--edu)"></i>Education</span><span><i style="background:var(--work)"></i>Experience</span><span>Bars show how long each lasted.</span></div>
+    </div>
+    <div class="timeline" id="tl">
+      <div class="axis"><div class="fill"></div><div class="now"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="hs-section" id="projects" aria-labelledby="pr-h">
+  <div class="hs" id="hs">
+    <div class="hs-sticky">
+      <div class="wrap hs-head">
+        <div class="head">
+          <p class="eyebrow">Selected work</p>
+          <h2 class="h2" id="pr-h">Seven projects, <em>one thread.</em></h2>
+        </div>
+        <p class="counter" id="pcount">01 / 07</p>
+      </div>
+      <div class="track" id="track">
+
+        <article class="pcard">
+          <div class="pvis"><svg class="spark" id="spark" viewBox="0 0 440 170" role="img" aria-label="Italian portfolio PD change under Net Zero 2050, 2025 to 2050, peaking at +4.96 pp in 2042"></svg></div>
+          <div class="pbody">
+            <p class="pmeta">Independent · 2026 · Python</p>
+            <h3>Transition credit risk engine</h3>
+            <p>NGFS Phase V scenarios mapped to sector PDs and expected loss with a Merton model calibrated to Pillar 3, for Italy and Germany to 2050.</p>
+            <div class="tags"><span>NGFS</span><span>Merton</span><span>Pillar 3 CR9</span><a href="#engine" style="font-size:12px;padding:4px 10px">Open the book ↓</a></div>
+          </div>
+        </article>
+
+        <article class="pcard">
+          <div class="pvis">
+            <div>
+              <div class="vflow"><span class="vbig num" style="color:var(--fg-3)">2,000</span><span class="arrow">→</span><span class="vbig num">3,500</span></div>
+              <p class="vsub" style="margin-top:8px">Entities matched</p>
+              <div class="gates" aria-label="10 validation gates"><i>✓</i><i>✓</i><i>✓</i><i>✓</i><i>✓</i><i>✓</i><i>✓</i><i>✓</i><i>✓</i><i>✓</i></div>
+              <p class="vsub" style="margin-top:6px">10 validation gates</p>
+            </div>
+          </div>
+          <div class="pbody">
+            <p class="pmeta">ECB · 2025–26 · Python, SQL</p>
+            <h3>PACTA-based climate alignment</h3>
+            <p>Workflows for the alignment of eight carbon-intensive sectors from AnaCredit, Asset Impact and IEA/JRC data; added aviation and a power intensity metric.</p>
+            <div class="tags"><span>PACTA</span><span>AnaCredit</span><span>IEA/JRC</span></div>
+          </div>
+        </article>
+
+        <article class="pcard">
+          <div class="pvis">
+            <div style="display:grid;gap:12px;justify-items:center">
+              <div class="vgrid" id="banks" aria-label="86 banks"></div>
+              <p class="vsub">86 banks · each square one bank</p>
+            </div>
+          </div>
+          <div class="pbody">
+            <p class="pmeta">ECB · 2025–26 · Regulation</p>
+            <h3>Pillar 3 ESG disclosure quality</h3>
+            <p>Led the review of 86 banks, defined validation rules and data-model improvements, and drafted template amendments the EBA approved for public consultation.</p>
+            <div class="tags"><span>Pillar 3 ESG</span><span>EBA ITS</span><span>Data quality</span></div>
+          </div>
+        </article>
+
+        <article class="pcard">
+          <div class="pvis">
+            <div class="dash">
+              <div><b>Transition</b><div class="bars"><i style="height:40%"></i><i style="height:65%"></i><i style="height:55%"></i><i style="height:85%"></i></div></div>
+              <div><b>Pillar 3</b><div class="bars"><i style="height:75%;background:var(--s3)"></i><i style="height:45%;background:var(--s3)"></i><i style="height:60%;background:var(--s3)"></i><i style="height:30%;background:var(--s3)"></i></div></div>
+              <div><b>Physical</b><div class="bars"><i style="height:30%;background:var(--s2)"></i><i style="height:50%;background:var(--s2)"></i><i style="height:90%;background:var(--s2)"></i><i style="height:60%;background:var(--s2)"></i></div></div>
+            </div>
+            <span class="illus">Illustrative UI</span>
+          </div>
+          <div class="pbody">
+            <p class="pmeta">ECB · 2025–26 · Tableau, Power BI</p>
+            <h3>Three supervisory dashboards</h3>
+            <p>Transition alignment, Pillar 3 and physical risk, used by 110 Joint Supervisory Teams and presented to the Supervisory Board.</p>
+            <div class="tags"><span>Tableau</span><span>Power BI</span><span>110 JSTs</span></div>
+          </div>
+        </article>
+
+        <article class="pcard">
+          <div class="pvis">
+            <div class="chat">
+              <p class="q">Which provision applies here?</p>
+              <p class="a">Retrieved answer with the cited legal source.<span>retrieval-augmented · cited</span></p>
+            </div>
+            <div class="ring" aria-label="87 percent"><b>87%</b></div>
+            <span class="illus">Illustrative UI</span>
+          </div>
+          <div class="pbody">
+            <p class="pmeta">ECB and INSEAD · 2024–25 · LLM APIs</p>
+            <h3>LexBankia</h3>
+            <p>Co-created a retrieval-augmented legal research prototype with DG Legal. 87% faster turnaround in a pilot with about 100 users; won the ECB Supervision Innovator Conference.</p>
+            <div class="tags"><span>RAG</span><span>Legal research</span><span>Award</span></div>
+          </div>
+        </article>
+
+        <article class="pcard">
+          <div class="pvis">
+            <div class="map"><i style="left:19%;top:27%"></i><i style="left:61%;top:55%"></i><i style="left:81%;top:23%"></i><i style="left:40%;top:70%"></i><i style="left:47%;top:30%"></i></div>
+            <span class="illus">Illustrative UI</span>
+          </div>
+          <div class="pbody">
+            <p class="pmeta">Independent · Python · public data</p>
+            <h3>Climate risk toolkit</h3>
+            <p>Joined power-plant locations to projected heat and flood hazards, and built flood-damage, PCAF and Scope 2 modules.</p>
+            <div class="tags"><span>Physical risk</span><span>PCAF</span><span>Scope 2</span></div>
+          </div>
+        </article>
+
+        <article class="pcard">
+          <div class="pvis"><div style="display:grid;gap:18px;justify-items:center"><div class="solar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p class="vsub">10 MW bifacial solar · Tunisia</p></div></div>
+          <div class="pbody">
+            <p class="pmeta">Cygnum Capital · 2023 · Project finance</p>
+            <h3>Solar plant bankability</h3>
+            <p>Compared LCOE, NPV and IRR across financing and offtake scenarios, and proposed mitigants such as PPA structuring. Also my BSc thesis.</p>
+            <div class="tags"><span>LCOE</span><span>NPV/IRR</span><span>PPA</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="desk" id="engine" aria-labelledby="engine-h">
+  <div class="book-scroll" id="bookScroll">
+    <div class="book-stage">
+      <div class="book-head">
+        <div class="wrap">
+          <p class="eyebrow">The engine, page by page</p>
+          <h2 class="h2" id="engine-h">How a carbon price becomes a <em>default.</em></h2>
+          <p class="lead">Scroll to turn the pages. Every number comes from the published results.</p>
+        </div>
+      </div>
+      <div class="book" id="book">
+        <div class="page l">
+          <p class="k">Inside cover</p>
+          <h3>Transition credit risk engine</h3>
+          <p>An open, reproducible engine that translates NGFS Phase V transition scenarios into probabilities of default and expected loss for a non-financial corporate loan book, by NACE sector, for Italy and Germany, 2025 to 2050.</p>
+          <p>Channels follow the ECB economy-wide climate stress test (Occasional Paper 281): carbon cost on Scope 1 emissions, sector abatement, GDP.</p>
+          <span class="pnum">i</span>
+        </div>
+
+        <div class="leaf" style="--i:0">
+          <div class="face front cover">
+            <p class="k">Open source · 2026</p>
+            <div style="display:grid;gap:.6em"><h3>NGFS scenarios <em>to</em> corporate PDs</h3><p>64,000 firms simulated from BACH company-account quartiles. Merton model calibrated on Pillar 3 EU CR9 default rates.</p></div>
+            <p class="k">Marco Izzo</p>
+          </div>
+          <div class="face back">
+            <p class="k">Finding 1</p>
+            <h3>Risk peaks in 2042, then falls.</h3>
+            <p>Carbon prices rise faster than sector emissions fall until the early 2040s. Afterwards decarbonisation shrinks the base the price applies to.</p>
+            <p class="big num">+4.96 pp</p>
+            <p>Peak change in the Italian portfolio PD under Net Zero 2050 versus Current Policies. Germany peaks at +1.44 pp, also in 2042.</p>
+            <span class="pnum">1</span>
+          </div>
+        </div>
+
+        <div class="leaf" style="--i:1">
+          <div class="face front">
+            <p class="k">Portfolio PD change · Net Zero 2050 vs Current Policies</p>
+            <div class="legend2"><span><i style="background:#2a78d6"></i>Italy</span><span><i style="background:#eb6834"></i>Germany</span></div>
+            <svg id="bookLine" viewBox="0 0 360 250" role="img" aria-label="Portfolio PD change, Italy and Germany, 2025 to 2050"></svg>
+            <p>Percentage points. GCAM 6.0, no carbon-cost pass-through.</p>
+            <span class="pnum">2</span>
+          </div>
+          <div class="face back">
+            <p class="k">Finding 2</p>
+            <h3>Risk is concentrated.</h3>
+            <p>In 2040 the largest shifts sit in agriculture, Italian waste management and transport. Manufacturing moves +2 to +4 pp.</p>
+            <p>Dispersion matters too: thin-margin firms cross the default threshold first. Firm-level data gives +2.66 pp for Italy in 2030, against +0.53 pp with one representative firm per industry.</p>
+            <span class="pnum">3</span>
+          </div>
+        </div>
+
+        <div class="leaf" style="--i:2">
+          <div class="face front">
+            <p class="k">Largest sector shifts in 2040 · pp</p>
+            <svg id="bookBars" viewBox="0 0 360 290" role="img" aria-label="PD change by sector in 2040, Italy and Germany"></svg>
+            <p>Net Zero 2050 versus Current Policies, NACE sections.</p>
+            <span class="pnum">4</span>
+          </div>
+          <div class="face back">
+            <p class="k">Finding 3</p>
+            <h3>One assumption drives Italy's 2050 figure.</h3>
+            <p>If agricultural CH₄ and N₂O are exempt from the carbon price, the Italian 2050 shift falls from +2.77 pp to +0.63 pp.</p>
+            <p>Scenario-model choice moves it by up to 0.9 pp; the leverage cap and asset volatility by less than 0.2 pp.</p>
+            <span class="pnum">5</span>
+          </div>
+        </div>
+
+        <div class="leaf" style="--i:3">
+          <div class="face front">
+            <p class="k">What moves Italy's 2050 result · pp</p>
+            <svg id="bookSens" viewBox="0 0 360 300" role="img" aria-label="Sensitivity of the Italian 2050 portfolio PD change"></svg>
+            <p>Dashed line: reference run, +2.77 pp.</p>
+            <span class="pnum">6</span>
+          </div>
+          <div class="face back">
+            <p class="k">Why it matters</p>
+            <h3>Built for the 2027 guidelines.</h3>
+            <p>EBA/GL/2025/04 on environmental scenario analysis apply from 1 January 2027 and require banks to integrate environmental risks into stress testing.</p>
+            <p>Every input is public and cited, every parameter sits in one configuration file, and every run writes a manifest with the hash of each input.</p>
+            <span class="pnum">7</span>
+          </div>
+        </div>
+
+        <div class="page r">
+          <p class="k">Back cover</p>
+          <h3>Read the code and the technical note.</h3>
+          <p>MIT licence for the code. Scenario data © NGFS/IIASA, used under its licence and not redistributed.</p>
+          <p><a href="https://github.com/MaizMates/transition-credit-risk" target="_blank" rel="noopener" style="color:#0066cc">github.com/MaizMates/transition-credit-risk ↗</a></p>
+          <span class="pnum">8</span>
+        </div>
+      </div>
+      <div class="steps" id="steps" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" aria-labelledby="sk-h">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow">Toolkit</p>
+      <h2 class="h2" id="sk-h">The periodic table of my <em>toolkit.</em></h2>
+      <p class="lead">37 elements in six families. Hover or tap an element to see where I used it, or pick a family.</p>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="ptable-wrap">
+      <div class="ptable" id="ptable"></div>
+      <aside class="detail" id="detail" aria-live="polite"></aside>
+    </div>
+  </div>
+</section>
+
+<section id="certs" aria-labelledby="ce-h" style="background:var(--bg-alt)">
+  <div class="wrap certs-grid">
+    <div class="head reveal">
+      <p class="eyebrow">Certifications</p>
+      <h2 class="h2" id="ce-h">Always <em>learning.</em></h2>
+      <p class="lead">Climate risk, AI and data, plus a joint MSc and an Erasmus year in between.</p>
+    </div>
+    <ol class="cert-list">
+      <li><span class="ci">01</span><div><b>GARP Sustainability and Climate Risk (SCR)<span class="pending">Result pending</span></b><span>Global Association of Risk Professionals · exam October 2026</span></div><span class="cy">2026</span></li>
+      <li><span class="ci">02</span><div><b>Climate and Nature Risks</b><span>European University Institute</span></div><span class="cy">2025</span></li>
+      <li><span class="ci">03</span><div><b>Innovation and AI</b><span>INSEAD</span></div><span class="cy">2025</span></li>
+      <li><span class="ci">04</span><div><b>ECB Data Academy, Best Data Project award</b><span>With Krisolis</span></div><span class="cy">2025</span></li>
+      <li><span class="ci">05</span><div><b>Project Management</b><span>IPMA</span></div><span class="cy">2023</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="contact" id="contact" aria-labelledby="ct-h">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow">Contact</p>
+      <h2 class="h2" id="ct-h">Let's talk about <em>climate risk.</em></h2>
+    </div>
+    <div class="clinks">
+      <div class="clink"><small>Email</small><b id="email">marcoizzo2001@gmail.com</b><button type="button" class="copy" id="copy">Copy address</button></div>
+      <a class="clink" href="https://www.linkedin.com/in/sonomarcoizzo" target="_blank" rel="noopener"><small>LinkedIn</small><b>in/sonomarcoizzo ↗</b></a>
+      <a class="clink" href="https://github.com/MaizMates" target="_blank" rel="noopener"><small>GitHub</small><b>MaizMates ↗</b></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Marco Izzo · Sorrento, Italy</p>
+    <p>Figures from my CV and from the published results of the transition-credit-risk repository (NGFS Phase V via IIASA, Eurostat, BACH, Pillar 3). Visuals marked "Illustrative UI" do not show real data.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function (s) { return document.querySelector(s); };
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+  /* Optional portrait: drop portrait.jpg next to this file */
+  var img = new Image();
+  img.onload = function () { var p = $(".portrait"); p.innerHTML = ""; img.alt = "Marco Izzo"; p.appendChild(img); };
+  img.src = "portrait.jpg";
+
+  /* Badge: flip on tap or keyboard, sway with pointer */
+  var card = $("#card3d"), lan = $("#lanyard");
+  card.addEventListener("click", function () { card.classList.toggle("flipped"); });
+  card.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); card.classList.toggle("flipped"); } });
+  if (!reduce) {
+    $("#badgeZone").addEventListener("pointermove", function (e) {
+      var r = this.getBoundingClientRect(), dx = (e.clientX - r.left) / r.width - .5;
+      lan.style.transform = "rotate(" + (-dx * 6).toFixed(2) + "deg)";
+    });
+    $("#badgeZone").addEventListener("pointerleave", function () { lan.style.transform = ""; });
+  }
+
+  /* Rotating focus line */
+  var words = ["Transition risk modelling", "NGFS scenario analysis", "Pillar 3 ESG disclosures", "Supervisory dashboards", "Python · SQL · R"], wi = 0;
+  if (!reduce) setInterval(function () { wi = (wi + 1) % words.length; $("#rot").textContent = words[wi]; }, 2600);
+
+  /* Reveal and count-up */
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("in"); io.unobserve(e.target);
+      e.target.querySelectorAll(".count").forEach(countUp);
+    });
+  }, { threshold: .2 });
+  document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+  function countUp(el) {
+    if (reduce) return;
+    var to = +el.dataset.to, from = +(el.dataset.from || 0), t0 = performance.now(), d = 1400;
+    (function tick(t) {
+      var k = clamp((t - t0) / d, 0, 1), v = from + (to - from) * (1 - Math.pow(1 - k, 3));
+      el.textContent = Math.round(v).toLocaleString("en-US");
+      if (k < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+
+  /* Timeline: position by date */
+  var TL = [
+    { s: "edu", a: 2020.67, b: 2023.5, when: "Sep 2020 – Jul 2023", t: "BSc Management Engineering", o: "Politecnico di Milano · 103/110", d: ["Thesis: Bankability of a 10 MW Bifacial Solar Power Plant.", "Probability and Statistics, Operations Research, Business Data Analytics."] },
+    { s: "edu", a: 2022.0, b: 2022.42, when: "Jan – Jun 2022", t: "Erasmus, Industrial Economics", o: "Lund University, Sweden", d: ["Digital Technologies, Logistics and Production Systems, Manufacturing and Quality."] },
+    { s: "work", a: 2023.08, b: 2023.5, when: "Feb – Jul 2023", t: "Trainee, Energy and Infrastructure Investment", o: "Cygnum Capital (Lion's Head Global Partners)", d: ["Bankability of a 10 MW bifacial solar project in Tunisia: LCOE, NPV and IRR across financing and offtake scenarios.", "Risk assessment with stakeholders on three continents; PPA structuring and fixed-price offtake as mitigants."] },
+    { s: "edu", a: 2023.67, b: 2026.25, when: "Sep 2023 – Apr 2026", t: "Joint MSc Transformative Sustainability", o: "Bocconi and Politecnico di Milano · 110/110 cum laude", d: ["Thesis: A Supervisory Benchmarking Framework for Public Bank Climate Disclosures.", "Sustainable Finance and ESG Investing, Financial and Enterprise Risk Management, Climate Economics."] },
+    { s: "work", a: 2024.67, b: 2025.58, when: "Sep 2024 – Aug 2025", t: "Trainee, Market and Liquidity Risk", o: "European Central Bank, Frankfurt", k: "LexBankia: 87% faster legal queries", d: ["COREP-based counterparty credit risk scores for the SREP; marginal return on capital dashboard in R and Tableau, over 90% of manual steps removed.", "Sovereign yield monitoring in Bloomberg and Excel/VBA, 70% faster.", "Co-created LexBankia with DG Legal; won the ECB Supervision Innovator Conference."] },
+    { s: "work", a: 2025.67, b: 2026.58, when: "Sep 2025 – Aug 2026", t: "Supervision Analyst, Climate and Nature Risk", o: "European Central Bank, Frankfurt", k: "86 banks · 110 JSTs · 3,500 entities", d: ["PACTA-based alignment of eight carbon-intensive sectors; matched entities raised from 2,000 to 3,500 with 10 validation gates.", "Led the Pillar 3 ESG disclosure quality review of 86 banks; template amendments approved by the EBA for consultation.", "Three dashboards used by 110 Joint Supervisory Teams; results presented to the Supervisory Board."] }
+  ];
+  var tl = $("#tl"), Y0 = 2020.5, Y1 = 2026.9, PX = 215, PAD = 30;
+  var ypos = function (v) { return PAD + (v - Y0) * PX; };
+  tl.style.setProperty("--h", (ypos(Y1) + PAD) + "px");
+  for (var yr = 2021; yr <= 2026; yr++) tl.insertAdjacentHTML("beforeend", '<span class="year" style="top:' + ypos(yr) + 'px">' + yr + "</span>");
+  TL.forEach(function (e) {
+    tl.insertAdjacentHTML("beforeend", '<span class="span ' + e.s + '" style="top:' + ypos(e.a) + "px;height:" + Math.max(10, (e.b - e.a) * PX) + 'px"></span>' +
+      '<article class="entry ' + e.s + ' reveal" style="top:' + (ypos(e.a) - 8) + 'px"><span class="tag"></span><p class="when">' + e.when + "</p><h3>" + e.t + '</h3><p class="org">' + e.o + "</p>" +
+      (e.k ? '<p class="kpi">' + e.k + "</p>" : "") + "<details><summary>Details</summary><ul>" + e.d.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul></details></article>");
+  });
+  tl.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+
+  /* Project visuals */
+  var banks = ""; for (var i = 0; i < 86; i++) banks += "<i></i>"; $("#banks").innerHTML = banks;
+  var IT = [0,0.76,1.77,2.38,2.68,2.66,3.13,3.33,3.52,3.76,3.98,4.3,4.5,4.66,4.72,4.72,4.89,4.96,4.92,4.79,4.58,4.37,3.96,3.51,3.2,2.77];
+  var DE = [0,0.09,0.31,0.42,0.46,0.39,0.54,0.64,0.7,0.77,0.87,1.05,1.17,1.26,1.29,1.27,1.39,1.44,1.43,1.38,1.29,1.19,0.99,0.66,0.44,0.34];
+  (function () {
+    var W = 440, H = 170, x = function (i) { return 16 + i * (W - 32) / 25; }, y = function (v) { return H - 24 - v / 5.5 * (H - 44); };
+    var d = IT.map(function (v, i) { return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1); }).join(" ");
+    var area = d + " L" + x(25) + " " + y(0) + " L" + x(0) + " " + y(0) + " Z";
+    $("#spark").innerHTML = '<path d="' + area + '" style="fill:color-mix(in srgb, var(--s1) 14%, transparent)"/><path d="' + d + '" fill="none" style="stroke:var(--s1)" stroke-width="2.5" stroke-linejoin="round"/>' +
+      '<circle cx="' + x(17) + '" cy="' + y(4.96) + '" r="5" style="fill:var(--s1);stroke:var(--bg-alt)" stroke-width="2"/>' +
+      '<text x="' + (x(17) - 10) + '" y="' + (y(4.96) - 10) + '" text-anchor="end" style="fill:var(--fg);font:600 12px var(--sans)">Peak +4.96 pp, 2042</text>' +
+      '<text x="16" y="' + (H - 6) + '" style="fill:var(--fg-2);font:11px var(--sans)">2025</text><text x="' + (W - 16) + '" y="' + (H - 6) + '" text-anchor="end" style="fill:var(--fg-2);font:11px var(--sans)">2050</text>';
+  })();
+
+  /* Horizontal project track driven by vertical scroll */
+  var hs = $("#hs"), track = $("#track"), pcount = $("#pcount"), hsOn = false;
+  function setupHs() {
+    hsOn = !reduce && innerWidth > 820;
+    document.documentElement.classList.toggle("static-hs", !hsOn);
+    if (hsOn) hs.style.setProperty("--dist", Math.max(0, track.scrollWidth - innerWidth) + "px");
+  }
+
+  /* Book */
+  var bookScroll = $("#bookScroll"), leaves = [].slice.call(document.querySelectorAll(".leaf")), steps = $("#steps"), bookOn = false;
+  steps.innerHTML = leaves.concat([0]).map(function () { return "<i></i>"; }).join("");
+  function setupBook() {
+    bookOn = !reduce && innerWidth > 820 && innerHeight > 620;
+    document.documentElement.classList.toggle("flat-book", !bookOn);
+    if (!bookOn) leaves.forEach(function (l) { l.style.removeProperty("--a"); l.style.zIndex = ""; });
+  }
+  function drawBook() {
+    var r = bookScroll.getBoundingClientRect(), total = r.height - innerHeight;
+    var p = clamp(-r.top / total, 0, 1) * (leaves.length + .6) - .3;
+    leaves.forEach(function (l, k) {
+      var f = clamp(p - k, 0, 1), a = -180 * (f * f * (3 - 2 * f));
+      l.style.setProperty("--a", a + "deg");
+      l.style.setProperty("--sh", (Math.sin(-a * Math.PI / 180) * .18).toFixed(3));
+      l.style.zIndex = f > .5 ? 10 + k : 10 + leaves.length - k;
+    });
+    var cur = clamp(Math.round(p), 0, leaves.length);
+    [].forEach.call(steps.children, function (s, k) { s.classList.toggle("on", k === cur); });
+  }
+
+  /* Book charts (real results, Net Zero 2050 vs Current Policies) */
+  (function () {
+    var W = 360, H = 250, m = { l: 30, r: 10, t: 14, b: 24 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    var x = function (i) { return m.l + i * iw / 25; }, y = function (v) { return m.t + ih * (1 - v / 6); };
+    var g = "";
+    for (var t = 0; t <= 6; t += 2) g += '<line x1="' + m.l + '" x2="' + (W - m.r) + '" y1="' + y(t) + '" y2="' + y(t) + '" stroke="' + (t ? "#e6e6eb" : "#c7c7cc") + '"/><text x="' + (m.l - 6) + '" y="' + (y(t) + 4) + '" text-anchor="end">' + t + "</text>";
+    [0, 5, 10, 15, 20, 25].forEach(function (i) { g += '<text x="' + x(i) + '" y="' + (H - 6) + '" text-anchor="middle">' + (2025 + i) + "</text>"; });
+    [[DE, "#eb6834"], [IT, "#2a78d6"]].forEach(function (s) {
+      g += '<path d="' + s[0].map(function (v, i) { return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1); }).join(" ") + '" fill="none" stroke="' + s[1] + '" stroke-width="2.2" stroke-linejoin="round"/>';
+    });
+    g += '<circle cx="' + x(17) + '" cy="' + y(4.96) + '" r="4" fill="#2a78d6" stroke="#f7f6f2" stroke-width="2"/><text class="ann" x="' + (x(17) - 8) + '" y="' + (y(4.96) - 9) + '" text-anchor="end">+4.96 pp, 2042</text>';
+    g += '<circle cx="' + x(17) + '" cy="' + y(1.44) + '" r="4" fill="#eb6834" stroke="#f7f6f2" stroke-width="2"/><text class="ann" x="' + (x(17) + 8) + '" y="' + (y(1.44) - 9) + '">+1.44 pp</text>';
+    $("#bookLine").innerHTML = g;
+
+    var rows = [["Agriculture", 96.5, 88.4], ["Waste and water", 26.6, 0.2], ["Transport", 18.9, 8.4], ["Manufacturing", 2.3, 4.3]];
+    var b = "", bw = 210, x0 = 118;
+    rows.forEach(function (r, k) {
+      var yy = 18 + k * 66;
+      b += '<text x="0" y="' + (yy + 12) + '" class="ann">' + r[0] + "</text>";
+      [[r[1], "#2a78d6", "IT"], [r[2], "#eb6834", "DE"]].forEach(function (s, j) {
+        var by = yy + 20 + j * 18, w = Math.max(2, s[0] / 100 * bw);
+        b += '<text x="0" y="' + (by + 9) + '">' + s[2] + '</text><rect x="' + x0 + '" y="' + by + '" width="' + w.toFixed(1) + '" height="11" rx="3" fill="' + s[1] + '"/><text x="' + (x0 + w + 6) + '" y="' + (by + 10) + '">+' + s[0].toFixed(1) + "</text>";
+      });
+    });
+    $("#bookBars").innerHTML = b;
+
+    var sens = [["MESSAGEix model", 3.62], ["REMIND model", 2.97], ["Leverage cap 10x", 2.91], ["Volatility ×0.8", 2.81], ["Reference", 2.77], ["Volatility ×1.2", 2.73], ["Leverage cap 40x", 2.66], ["50% pass-through", 2.47], ["One firm per industry", 2.40], ["Agri CH₄/N₂O unpriced", 0.63]];
+    var s = "", sx0 = 136, sw = 190, sx = function (v) { return sx0 + v / 4 * sw; };
+    s += '<line x1="' + sx(2.77) + '" x2="' + sx(2.77) + '" y1="4" y2="' + (sens.length * 27 + 4) + '" stroke="#8e8e93" stroke-dasharray="3 3"/>';
+    sens.forEach(function (r, k) {
+      var yy = 18 + k * 27, ref = r[0] === "Reference";
+      s += '<text x="0" y="' + (yy + 4) + '"' + (ref ? ' class="ann"' : "") + ">" + r[0] + '</text><line x1="' + sx0 + '" x2="' + (sx0 + sw) + '" y1="' + yy + '" y2="' + yy + '" stroke="#e6e6eb"/>' +
+        '<circle cx="' + sx(r[1]) + '" cy="' + yy + '" r="5" fill="' + (ref ? "#1d1d1f" : "#2a78d6") + '" stroke="#f7f6f2" stroke-width="2"/><text x="' + (sx(r[1]) + (r[1] > 3.3 ? -10 : 10)) + '" y="' + (yy + 4) + '"' + (r[1] > 3.3 ? ' text-anchor="end"' : "") + ">+" + r[1].toFixed(2) + "</text>";
+    });
+    $("#bookSens").innerHTML = s;
+  })();
+
+  /* Periodic table */
+  var FAM = [
+    { id: "code", n: "Code", c: "var(--s1)" }, { id: "data", n: "Data and BI", c: "var(--s2)" }, { id: "clim", n: "Climate scenarios", c: "var(--s3)" },
+    { id: "sup", n: "Supervision and risk", c: "var(--s4)" }, { id: "std", n: "Standards studied", c: "var(--s5)" }, { id: "lang", n: "Spoken", c: "var(--s6)" }
+  ];
+  var EL = [
+    ["code", "Py", "Python", "PACTA alignment workflows at the ECB; transition credit risk engine; climate risk toolkit."],
+    ["code", "Sq", "SQL", "Impala and Devo queries; asset-to-AnaCredit matching that took matched entities from 2,000 to 3,500."],
+    ["code", "R", "R", "Marginal return on capital dashboard at the ECB, over 90% of manual update steps removed."],
+    ["code", "Vb", "Excel VBA", "Weekly sovereign yield monitoring with Bloomberg, update time cut by 70%."],
+    ["code", "Gt", "Git", "Version control for public projects on GitHub (MaizMates)."],
+    ["code", "Ll", "LLM APIs", "LexBankia, a retrieval-augmented legal research prototype: 87% faster turnaround in the pilot."],
+    ["data", "Pd", "pandas", "Data preparation across the alignment and credit risk projects."],
+    ["data", "Sk", "scikit-learn", "Part of my Python stack for modelling."],
+    ["data", "Im", "Impala", "SQL engine for supervisory data at the ECB."],
+    ["data", "Dv", "Devo", "SQL engine for supervisory data at the ECB."],
+    ["data", "Tb", "Tableau", "Dashboards used by 110 Joint Supervisory Teams; marginal return on capital dashboard."],
+    ["data", "Pb", "Power BI", "Supervisory dashboards on transition alignment, Pillar 3 and physical risk."],
+    ["data", "Xl", "Excel", "Sovereign yield monitoring; LCOE, NPV and IRR models for a 10 MW solar project."],
+    ["data", "Bb", "Bloomberg", "Weekly sovereign yield monitoring at the ECB."],
+    ["clim", "Pa", "PACTA", "ECB PACTA-based alignment of eight carbon-intensive sectors."],
+    ["clim", "Ng", "NGFS", "Phase V scenarios mapped to sector PDs and expected loss to 2050."],
+    ["clim", "Ie", "IEA", "Sector pathways in the ECB alignment work; aviation added with IEA and RMI data."],
+    ["clim", "Jr", "JRC", "Sector pathways in the ECB alignment work."],
+    ["clim", "Tr", "Transition risk", "Carbon cost, abatement and GDP channels from ECB Occasional Paper 281."],
+    ["clim", "Ph", "Physical risk", "Power-plant locations joined to heat and flood hazards; a physical risk dashboard."],
+    ["sup", "P3", "Pillar 3 ESG", "Led the disclosure quality review of 86 banks; template amendments approved by the EBA for consultation."],
+    ["sup", "Sr", "SREP", "COREP-based counterparty credit risk scores for the SREP."],
+    ["sup", "Co", "COREP", "Counterparty credit risk scores built on COREP data."],
+    ["sup", "Cr", "Credit risk", "Merton PDs calibrated to Pillar 3 EU CR9 default rates."],
+    ["sup", "Mk", "Market risk", "Derivatives and central counterparties under EMIR at the ECB."],
+    ["sup", "Lq", "Liquidity risk", "Banks' funding and liquidity risk at the ECB."],
+    ["std", "Pc", "PCAF", "Financed-emissions module in the climate risk toolkit."],
+    ["std", "Tx", "EU Taxonomy", "Studied in depth."],
+    ["std", "Es", "CSRD / ESRS", "Studied in depth."],
+    ["std", "Is", "ISSB", "Studied in depth."],
+    ["std", "Tn", "TNFD", "Studied in depth; EUI Climate and Nature Risks programme."],
+    ["std", "St", "Climate stress testing", "Studied in depth; channels of the ECB economy-wide climate stress test used in the engine."],
+    ["lang", "It", "Italian", "Native."],
+    ["lang", "En", "English", "C2."],
+    ["lang", "De", "German", "B2."],
+    ["lang", "Fr", "French", "B1."],
+    ["lang", "Es", "Spanish", "A1."]
+  ];
+  var famBy = {}; FAM.forEach(function (f) { famBy[f.id] = f; });
+  var html = "", n = 0, prev = null, col = 0;
+  EL.forEach(function (e) {
+    if (prev && e[0] !== prev) { while (col % 8) { html += '<span class="el gap" aria-hidden="true"></span>'; col++; } }
+    prev = e[0]; n++; col++;
+    html += '<button type="button" class="el" data-f="' + e[0] + '" data-i="' + (n - 1) + '" style="--c:' + famBy[e[0]].c + '"><span class="n">' + String(n).padStart(2, "0") + '</span><span class="sym">' + e[1] + '</span><span class="nm">' + e[2] + "</span></button>";
+  });
+  $("#ptable").innerHTML = html;
+  $("#chips").innerHTML = '<button type="button" class="chip" data-f="all" aria-pressed="true" style="--c:var(--fg-3)"><i></i>All</button>' +
+    FAM.map(function (f) { return '<button type="button" class="chip" data-f="' + f.id + '" aria-pressed="false" style="--c:' + f.c + '"><i></i>' + f.n + "</button>"; }).join("");
+  var detail = $("#detail");
+  function show(i) {
+    var e = EL[i], f = famBy[e[0]];
+    document.querySelectorAll(".el").forEach(function (b) { b.classList.toggle("active", +b.dataset.i === i); });
+    detail.style.setProperty("--c", f.c);
+    detail.innerHTML = '<p class="fam"><i></i>' + f.n + '</p><p class="big">' + e[1] + "</p><h3>" + e[2] + "</h3><p>" + e[3] + "</p>";
+  }
+  document.querySelectorAll(".el:not(.gap)").forEach(function (b) {
+    b.addEventListener("mouseenter", function () { show(+b.dataset.i); });
+    b.addEventListener("focus", function () { show(+b.dataset.i); });
+    b.addEventListener("click", function () { show(+b.dataset.i); });
+  });
+  document.querySelectorAll(".chip").forEach(function (c) {
+    c.addEventListener("click", function () {
+      var f = c.dataset.f;
+      document.querySelectorAll(".chip").forEach(function (o) { o.setAttribute("aria-pressed", String(o === c)); });
+      document.querySelectorAll(".el:not(.gap)").forEach(function (b) { b.classList.toggle("dim", f !== "all" && b.dataset.f !== f); });
+      var first = EL.findIndex(function (e) { return f === "all" || e[0] === f; }); show(first);
+    });
+  });
+  show(0);
+
+  /* Scroll loop */
+  var tlFill = tl.querySelector(".axis"), prog = $("#progress"), ticking = false;
+  function onScroll() {
+    ticking = false;
+    var de = document.documentElement;
+    prog.style.setProperty("--p", (scrollY / (de.scrollHeight - innerHeight)).toFixed(4));
+    var r = tl.getBoundingClientRect();
+    tlFill.style.setProperty("--fill", (clamp((innerHeight * .6 - r.top) / r.height, 0, 1) * 100).toFixed(2) + "%");
+    if (hsOn) {
+      var hr = hs.getBoundingClientRect(), dist = hs.offsetHeight - innerHeight, k = clamp(-hr.top / dist, 0, 1);
+      track.style.setProperty("--x", (-k * Math.max(0, track.scrollWidth - innerWidth)).toFixed(1) + "px");
+      pcount.textContent = String(Math.min(7, Math.floor(k * 6.99) + 1)).padStart(2, "0") + " / 07";
+    }
+    if (bookOn) drawBook();
+  }
+  function req() { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }
+  addEventListener("scroll", req, { passive: true });
+  addEventListener("resize", function () { setupHs(); setupBook(); req(); });
+  setupHs(); setupBook(); onScroll();
+  if (!hsOn) track.parentElement.addEventListener("scroll", function () {
+    var el = track.parentElement, k = el.scrollLeft / Math.max(1, el.scrollWidth - el.clientWidth);
+    pcount.textContent = String(Math.min(7, Math.floor(k * 6.99) + 1)).padStart(2, "0") + " / 07";
+  }, { passive: true });
+
+  /* Copy email */
+  $("#copy").addEventListener("click", function () {
+    var btn = this, text = $("#email").textContent;
+    function sel() { var r = document.createRange(); r.selectNodeContents($("#email")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected. Press Cmd+C"; }
+    try { navigator.clipboard.writeText(text).then(function () { btn.textContent = "Copied"; }, sel); } catch (e) { sel(); }
+  });
+})();
+</script>
+</body>
+</html>
