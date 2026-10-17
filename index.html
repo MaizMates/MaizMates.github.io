@@ -188,7 +188,7 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .span { position: absolute; z-index: 1; width: 4px; border-radius: 2px; }
 .span.edu { left: calc(50% - 7px); background: var(--edu); }
 .span.work { left: calc(50% + 3px); background: var(--work); }
-.entry { position: absolute; width: calc(50% - 48px); background: var(--card); border-radius: 18px; padding: 18px 20px; box-shadow: var(--shadow); display: grid; gap: 6px; z-index: 1; }
+.entry { align-content: start; position: absolute; width: calc(50% - 48px); background: var(--card); border-radius: 18px; padding: 18px 20px; box-shadow: var(--shadow); display: grid; gap: 6px; z-index: 1; }
 .entry.edu { right: calc(50% + 32px); }
 .entry.work { left: calc(50% + 32px); }
 .entry:hover, .entry:focus-within { z-index: 5; }
@@ -204,11 +204,14 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .entry details[open] summary::after { content: " \2212"; }
 .entry ul { margin: 10px 0 0; padding-left: 1.05em; display: grid; gap: 6px; font-size: var(--t-small); color: var(--fg-2); }
 .entry .kpi { font-size: var(--t-small); font-weight: 600; }
+.entry .sub { position: absolute; left: 12px; right: 12px; background: var(--bg-alt); border-radius: 12px; padding: 12px 14px; display: grid; gap: 3px; align-content: start; border-left: 3px solid var(--edu); }
+.entry .sub h3 { font-size: 1rem; }
 @media (max-width: 820px) {
   .timeline { height: auto; display: grid; gap: 16px; padding-left: 28px; }
   .axis { left: 6px; }
   .axis .now, .year, .span { display: none; }
   .entry { position: static; width: auto; }
+  .entry .sub { position: static; margin-top: 8px; }
   .entry .tag { left: -27px !important; right: auto !important; }
   .entry.edu { border-left: 4px solid var(--edu); }
   .entry.work { border-left: 4px solid var(--work); }
@@ -474,7 +477,7 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
     <div class="head reveal">
       <p class="eyebrow">Timeline</p>
       <h2 class="h2" id="tl-h">Study on the left. Work on the <em>right.</em></h2>
-      <div class="tl-legend"><span><i style="background:var(--edu)"></i>Education</span><span><i style="background:var(--work)"></i>Experience</span><span>Bars show how long each lasted.</span></div>
+      <div class="tl-legend"><span><i style="background:var(--edu)"></i>Education</span><span><i style="background:var(--work)"></i>Experience</span><span>Each box spans its real dates.</span></div>
     </div>
     <div class="timeline" id="tl">
       <div class="axis"><div class="fill"></div><div class="now"></div></div>
@@ -796,25 +799,53 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
     })(t0);
   }
 
-  /* Timeline: position by date */
+  /* Timeline: each box spans its real dates, from the start of the first month to the end of the last */
+  var ms = function (y, m) { return y + (m - 1) / 12; }, me = function (y, m) { return y + m / 12; };
+  var li = function (x) { return "<li>" + x + "</li>"; };
   var TL = [
-    { s: "edu", a: 2020.67, b: 2023.5, when: "Sep 2020 – Jul 2023", t: "BSc Management Engineering", o: "Politecnico di Milano · 103/110", d: ["Thesis: Bankability of a 10 MW Bifacial Solar Power Plant.", "Probability and Statistics, Operations Research, Business Data Analytics."] },
-    { s: "edu", a: 2022.0, b: 2022.42, when: "Jan – Jun 2022", t: "Erasmus, Industrial Economics", o: "Lund University, Sweden", d: ["Digital Technologies, Logistics and Production Systems, Manufacturing and Quality."] },
-    { s: "work", a: 2023.08, b: 2023.5, when: "Feb – Jul 2023", t: "Trainee, Energy and Infrastructure Investment", o: "Cygnum Capital (Lion's Head Global Partners)", d: ["Bankability of a 10 MW bifacial solar project in Tunisia: LCOE, NPV and IRR across financing and offtake scenarios.", "Risk assessment with stakeholders on three continents; PPA structuring and fixed-price offtake as mitigants."] },
-    { s: "edu", a: 2023.67, b: 2026.25, when: "Sep 2023 – Apr 2026", t: "Joint MSc Transformative Sustainability", o: "Bocconi and Politecnico di Milano · 110/110 cum laude", d: ["Thesis: A Supervisory Benchmarking Framework for Public Bank Climate Disclosures.", "Sustainable Finance and ESG Investing, Financial and Enterprise Risk Management, Climate Economics."] },
-    { s: "work", a: 2024.67, b: 2025.58, when: "Sep 2024 – Aug 2025", t: "Trainee, Market and Liquidity Risk", o: "European Central Bank, Frankfurt", k: "LexBankia: 87% faster legal queries", d: ["COREP-based counterparty credit risk scores for the SREP; marginal return on capital dashboard in R and Tableau, over 90% of manual steps removed.", "Sovereign yield monitoring in Bloomberg and Excel/VBA, 70% faster.", "Co-created LexBankia with DG Legal; won the ECB Supervision Innovator Conference."] },
-    { s: "work", a: 2025.67, b: 2026.58, when: "Sep 2025 – Aug 2026", t: "Supervision Analyst, Climate and Nature Risk", o: "European Central Bank, Frankfurt", k: "86 banks · 110 JSTs · 3,500 entities", d: ["PACTA-based alignment of eight carbon-intensive sectors; matched entities raised from 2,000 to 3,500 with 10 validation gates.", "Led the Pillar 3 ESG disclosure quality review of 86 banks; template amendments approved by the EBA for consultation.", "Three dashboards used by 110 Joint Supervisory Teams; results presented to the Supervisory Board."] }
+    { s: "edu", a: ms(2020, 9), b: me(2023, 7), when: "Sep 2020 – Jul 2023", t: "BSc Management Engineering", o: "Politecnico di Milano · 103/110", d: ["Thesis: Bankability of a 10 MW Bifacial Solar Power Plant.", "Probability and Statistics, Operations Research, Business Data Analytics."],
+      sub: { a: ms(2022, 1), b: me(2022, 6), when: "Jan – Jun 2022 · during the BSc", t: "Erasmus, Industrial Economics", o: "Lund University, Sweden" } },
+    { s: "work", a: ms(2023, 2), b: me(2023, 7), when: "Feb – Jul 2023", t: "Trainee, Energy and Infrastructure Investment", o: "Cygnum Capital (Lion's Head Global Partners)", d: ["Bankability of a 10 MW bifacial solar project in Tunisia: LCOE, NPV and IRR across financing and offtake scenarios.", "Risk assessment with stakeholders on three continents; PPA structuring and fixed-price offtake as mitigants."] },
+    { s: "edu", a: ms(2023, 9), b: me(2026, 4), when: "Sep 2023 – Apr 2026", t: "Joint MSc Transformative Sustainability", o: "Bocconi and Politecnico di Milano · 110/110 cum laude", d: ["Thesis: A Supervisory Benchmarking Framework for Public Bank Climate Disclosures.", "Sustainable Finance and ESG Investing, Financial and Enterprise Risk Management, Climate Economics."] },
+    { s: "work", a: ms(2024, 9), b: me(2025, 8), when: "Sep 2024 – Aug 2025", t: "Trainee, Market and Liquidity Risk", o: "European Central Bank, Frankfurt", k: "LexBankia: 87% faster legal queries", d: ["COREP-based counterparty credit risk scores for the SREP; marginal return on capital dashboard in R and Tableau, over 90% of manual steps removed.", "Sovereign yield monitoring in Bloomberg and Excel/VBA, 70% faster.", "Co-created LexBankia with DG Legal; won the ECB Supervision Innovator Conference."] },
+    { s: "work", a: ms(2025, 9), b: me(2026, 8), when: "Sep 2025 – Aug 2026", t: "Supervision Analyst, Climate and Nature Risk", o: "European Central Bank, Frankfurt", k: "86 banks · 110 JSTs · 3,500 entities", d: ["PACTA-based alignment of eight carbon-intensive sectors; matched entities raised from 2,000 to 3,500 with 10 validation gates.", "Led the Pillar 3 ESG disclosure quality review of 86 banks; template amendments approved by the EBA for consultation.", "Three dashboards used by 110 Joint Supervisory Teams; results presented to the Supervisory Board."] }
   ];
-  var tl = $("#tl"), Y0 = 2020.5, Y1 = 2026.75, PX = 215, PAD = 30;
-  var ypos = function (v) { return PAD + (v - Y0) * PX; };
-  tl.style.setProperty("--h", (ypos(Y1) + PAD) + "px");
-  for (var yr = 2021; yr <= 2026; yr++) tl.insertAdjacentHTML("beforeend", '<span class="year" style="top:' + ypos(yr) + 'px">' + yr + "</span>");
-  TL.forEach(function (e) {
-    tl.insertAdjacentHTML("beforeend", '<span class="span ' + e.s + '" style="top:' + ypos(e.a) + "px;height:" + Math.max(10, (e.b - e.a) * PX) + 'px"></span>' +
-      '<article class="entry ' + e.s + ' reveal" style="top:' + (ypos(e.a) - 8) + 'px"><span class="tag"></span><p class="when">' + e.when + "</p><h3>" + e.t + '</h3><p class="org">' + e.o + "</p>" +
-      (e.k ? '<p class="kpi">' + e.k + "</p>" : "") + "<details><summary>Details</summary><ul>" + e.d.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul></details></article>");
+  var tl = $("#tl"), Y0 = 2020.55, Y1 = 2026.75, PAD = 24, GAP = 8;
+  for (var yr = 2021; yr <= 2026; yr++) tl.insertAdjacentHTML("beforeend", '<span class="year" data-y="' + yr + '">' + yr + "</span>");
+  TL.forEach(function (e, k) {
+    tl.insertAdjacentHTML("beforeend", '<span class="span ' + e.s + '" data-i="' + k + '"></span>' +
+      '<article class="entry ' + e.s + ' reveal" data-i="' + k + '"><span class="tag"></span><p class="when">' + e.when + "</p><h3>" + e.t + '</h3><p class="org">' + e.o + "</p>" +
+      (e.k ? '<p class="kpi">' + e.k + "</p>" : "") + "<details><summary>Details</summary><ul>" + e.d.map(li).join("") + "</ul></details>" +
+      (e.sub ? '<div class="sub"><p class="when">' + e.sub.when + "</p><h3>" + e.sub.t + '</h3><p class="org">' + e.sub.o + "</p></div>" : "") + "</article>");
   });
   tl.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+  function layoutTL() {
+    var cards = [].slice.call(tl.querySelectorAll(".entry"));
+    cards.forEach(function (c) { c.style.top = c.style.minHeight = ""; var sb = c.querySelector(".sub"); if (sb) sb.style.top = sb.style.height = ""; if (c.dataset.auto) { c.querySelector("details").open = false; delete c.dataset.auto; } });
+    if (innerWidth <= 820) { tl.style.removeProperty("--h"); return; }
+    var px = 240;  /* pixels per year: the smallest scale at which every box fits its own dates */
+    cards.forEach(function (c) {
+      var e = TL[+c.dataset.i], sb = c.querySelector(".sub");
+      if (sb) {
+        px = Math.max(px, (c.offsetHeight + GAP) / (e.sub.a - e.a), (sb.offsetHeight + GAP) / (e.sub.b - e.sub.a));
+      } else px = Math.max(px, (c.offsetHeight + GAP) / (e.b - e.a));
+    });
+    px = Math.min(px, 520);
+    var y = function (v) { return PAD + (v - Y0) * px; };
+    tl.style.setProperty("--h", (y(Y1) + PAD) + "px");
+    tl.querySelectorAll(".year").forEach(function (sp) { sp.style.top = y(+sp.dataset.y) + "px"; });
+    tl.querySelectorAll(".span").forEach(function (sp) { var e = TL[+sp.dataset.i]; sp.style.top = y(e.a) + "px"; sp.style.height = (e.b - e.a) * px + "px"; });
+    cards.forEach(function (c) {
+      var e = TL[+c.dataset.i], sb = c.querySelector(".sub");
+      c.style.top = y(e.a) + GAP / 2 + "px";
+      c.style.minHeight = (e.b - e.a) * px - GAP + "px";
+      if (sb) { sb.style.top = (e.sub.a - e.a) * px - GAP / 2 + "px"; sb.style.height = (e.sub.b - e.sub.a) * px - GAP + "px"; }
+      var dt = c.querySelector("details"), room = (sb ? (e.sub.a - e.a) * px : (e.b - e.a) * px) - GAP;
+      if (!dt.open) { dt.open = true; if (dt.getBoundingClientRect().bottom - c.getBoundingClientRect().top + 18 > room) dt.open = false; else c.dataset.auto = "1"; }  /* show details where the box has room for them */
+    });
+  }
+  layoutTL();
+  if (document.fonts) document.fonts.ready.then(layoutTL);
 
   /* Project visuals */
   var banks = ""; for (var i = 0; i < 86; i++) banks += "<i></i>"; $("#banks").innerHTML = banks;
@@ -989,7 +1020,7 @@ footer .wrap { padding-block: 28px 44px; font-size: var(--t-caption); color: var
   }
   function req() { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }
   addEventListener("scroll", req, { passive: true });
-  addEventListener("resize", function () { setupHs(); setupBook(); req(); });
+  addEventListener("resize", function () { setupHs(); setupBook(); layoutTL(); req(); });
   setupHs(); setupBook(); onScroll();
   if (!hsOn) track.parentElement.addEventListener("scroll", function () {
     var el = track.parentElement, k = el.scrollLeft / Math.max(1, el.scrollWidth - el.clientWidth);
